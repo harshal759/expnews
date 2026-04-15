@@ -648,4 +648,19 @@ export default async function decorate(block) {
 
     block._ueListenerAdded = true;
   }
+
+  // Add IDs to headings and paragraphs with container context
+  ['h1', 'h2', 'h3', 'h4', 'h5', 'h6','p'].forEach((tag) => {
+    const elements = block.querySelectorAll(tag);
+    elements.forEach((el) => {
+      const textBlock = el.closest('[data-text-block-index]');
+      const textBlockIndex = textBlock ? textBlock.getAttribute('data-text-block-index') : 'unknown';
+      
+      // Count this tag within its text block
+      const textBlockElements = textBlock ? textBlock.querySelectorAll(tag) : [el];
+      const tagIndex = Array.from(textBlockElements).indexOf(el);
+      
+      el.id = `columns_${blockIndex}_text_${textBlockIndex}_${tag}_${tagIndex}`;
+    });
+  });
 }
