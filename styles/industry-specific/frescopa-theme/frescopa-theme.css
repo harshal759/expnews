@@ -880,3 +880,6 @@ body.frescopa-theme main .confirmation .confirmation-detail-value {
 .frescopa-theme  .hero.block.overlay.hero--text-overlay-off picture, .frescopa-theme .hero.image-background-text-left.hero--text-overlay-off picture, .frescopa-theme .hero.image-background-text-right.hero--text-overlay-off picture {
     filter: brightness(1);
 }
+body.frescopa-theme main .cart .cart-checkout-btn{
+  padding: 14px 32px;
+}

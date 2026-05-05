@@ -237,7 +237,7 @@ main .order-summary .order-summary-buttons {
 
 main .order-summary .order-summary-btn {
     min-width: 160px;
-    padding: 18px 40px;
+    padding: 14px 32px;
     border: 2px solid #212529;
     border-radius: 2px;
     font-size: 0.9375rem;
