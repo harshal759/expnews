@@ -11,33 +11,36 @@ function buildDefaultSteps(base) {
     {
       question: 'Where would you choose to enjoy your favorite coffee?',
       columns: 2,
+      dataLayerKey: 'favoriteLocation',
       options: [
-        { image: p('quiz-option-1-1.jpg'), label: '', value: 'home' },
-        { image: p('quiz-option-1-2.jpg'), label: '', value: 'work' },
-        { image: p('quiz-option-1-3.jpg'), label: '', value: 'on-the-go' },
-        { image: p('quiz-option-1-4.jpg'), label: '', value: 'outdoors' },
+        { image: p('quiz-option-1-1.jpg'), label: '', value: 'home', dataLayerValue: 'beach' },
+        { image: p('quiz-option-1-2.jpg'), label: '', value: 'work', dataLayerValue: 'countryside' },
+        { image: p('quiz-option-1-3.jpg'), label: '', value: 'on-the-go', dataLayerValue: 'villaAbroad' },
+        { image: p('quiz-option-1-4.jpg'), label: '', value: 'outdoors', dataLayerValue: 'winterCabin' },
       ],
     },
     {
       question: 'How many cups of coffee do you make a day?',
       columns: 2,
+      dataLayerKey: 'dailyConsumption',
       options: [
-        { image: p('quiz-option-2-1.jpg'), label: '', value: '1-cup' },
-        { image: p('quiz-option-2-2.jpg'), label: '', value: '2-3-cups' },
-        { image: p('quiz-option-2-3.jpg'), label: '', value: '4-5-cups' },
-        { image: p('quiz-option-2-4.jpg'), label: '', value: '6-plus' },
+        { image: p('quiz-option-2-1.jpg'), label: '', value: '1-cup', dataLayerValue: '1cup' },
+        { image: p('quiz-option-2-2.jpg'), label: '', value: '2-3-cups', dataLayerValue: '2cups' },
+        { image: p('quiz-option-2-3.jpg'), label: '', value: '4-5-cups', dataLayerValue: '3to4cups' },
+        { image: p('quiz-option-2-4.jpg'), label: '', value: '6-plus', dataLayerValue: 'moreThan5' },
       ],
     },
     {
       question: 'How do you like to make your coffee?',
       columns: 3,
+      dataLayerKey: 'favoriteCoffeeMaker',
       options: [
-        { image: p('quiz-option-3-1.jpg'), label: '', value: 'espresso' },
-        { image: p('quiz-option-3-2.jpg'), label: '', value: 'drip' },
-        { image: p('quiz-option-3-3.jpg'), label: '', value: 'french-press' },
-        { image: p('quiz-option-3-4.jpg'), label: '', value: 'pour-over' },
-        { image: p('quiz-option-3-5.jpg'), label: '', value: 'capsule' },
-        { image: p('quiz-option-3-6.jpg'), label: '', value: 'cold-brew' },
+        { image: p('quiz-option-3-1.jpg'), label: '', value: 'espresso', dataLayerValue: 'frenchPress' },
+        { image: p('quiz-option-3-2.jpg'), label: '', value: 'drip', dataLayerValue: 'coffeePods' },
+        { image: p('quiz-option-3-3.jpg'), label: '', value: 'french-press', dataLayerValue: 'espressoMachine' },
+        { image: p('quiz-option-3-4.jpg'), label: '', value: 'pour-over', dataLayerValue: 'dripMachine' },
+        { image: p('quiz-option-3-5.jpg'), label: '', value: 'capsule', dataLayerValue: 'pourOver' },
+        { image: p('quiz-option-3-6.jpg'), label: '', value: 'cold-brew', dataLayerValue: 'mokaPot' },
       ],
     },
     {
@@ -85,6 +88,7 @@ export default async function decorate(block) {
 
   let currentStepIndex = 0;
   const selections = new Array(steps.length).fill(null);
+  const coffeeQuizData = {};
   let completed = false;
 
   block.textContent = '';
@@ -205,6 +209,13 @@ export default async function decorate(block) {
           c.classList.toggle('is-selected', i === optIndex)
         );
         updateButtons(index);
+
+        if (step.dataLayerKey && option.dataLayerValue) {
+          coffeeQuizData[step.dataLayerKey] = option.dataLayerValue;
+          if (typeof window.updateDataLayer === 'function') {
+            window.updateDataLayer({ coffeeQuiz: { ...coffeeQuizData } });
+          }
+        }
       });
 
       grid.append(card);
