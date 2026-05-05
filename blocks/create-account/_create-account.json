@@ -50,6 +50,13 @@
           "valueType": "boolean"
         },
         {
+          "component": "boolean",
+          "name": "showcommunicationpreferences",
+          "label": "Show Communication Preferences",
+          "value": "true",
+          "valueType": "boolean"
+        },
+        {
           "component": "aem-content",
           "valueType": "string",
           "name": "redirectUrl",

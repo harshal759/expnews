@@ -883,3 +883,10 @@ body.frescopa-theme main .confirmation .confirmation-detail-value {
 body.frescopa-theme main .cart .cart-checkout-btn{
   padding: 14px 32px;
 }
+body.frescopa-theme main .create-account .field-wrapper.switch input[type="checkbox"]:checked {
+    background: #27647e;
+}
+body.frescopa-theme main .create-account .field-wrapper.switch input[type="checkbox"]::before {
+    top: 0;
+    left: 0;
+}

@@ -40,6 +40,9 @@ function buildCreateAccountFormDef(config = {}) {
   const isFrescopaVariant = normalizeVariant(config.variant) === "frescopa"
     || document.body.classList.contains('frescopa-theme');
   const showLoyaltyProgram = isTruthy(config.showloyaltyprogram);
+  const showCommunicationPreferences = config.showcommunicationpreferences !== undefined
+    ? isTruthy(config.showcommunicationpreferences)
+    : true;
   const shoeSizes = ["", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45"];
   const shirtSizes = ["", "s", "m", "l", "xl", "xxl"];
   const favoriteColors = ["", "black", "blue", "green", "orange", "pink", "purple", "red", "white", "yellow"];
@@ -80,7 +83,7 @@ function buildCreateAccountFormDef(config = {}) {
             fieldType: "text-input",
             label: { value: "Email address" },
             autoComplete: "email",
-            properties: { colspan: 12 },
+            properties: { colspan: isFrescopaVariant ? 6 : 12 },
           },
           {
             id: "phone",
@@ -88,7 +91,7 @@ function buildCreateAccountFormDef(config = {}) {
             fieldType: "text-input",
             label: { value: "Phone number" },
             autoComplete: "tel",
-            properties: { colspan: 12 },
+            properties: { colspan: isFrescopaVariant ? 6 : 12 },
           },
           {
             id: "address",
@@ -140,7 +143,7 @@ function buildCreateAccountFormDef(config = {}) {
             id: "communicationHeading",
             fieldType: "heading",
             label: { value: "Communication preferences" },
-            appliedCssClassNames: "col-12 communication-heading",
+            appliedCssClassNames: withConditionalClasses("col-12 communication-heading", showCommunicationPreferences),
           },
           {
             id: "prefEmail",
@@ -154,6 +157,7 @@ function buildCreateAccountFormDef(config = {}) {
               alignment: "horizontal",
               colspan: 4,
             },
+            ...(showCommunicationPreferences ? {} : { appliedCssClassNames: "is-hidden" }),
           },
           {
             id: "prefPhone",
@@ -167,6 +171,7 @@ function buildCreateAccountFormDef(config = {}) {
               alignment: "horizontal",
               colspan: 4,
             },
+            ...(showCommunicationPreferences ? {} : { appliedCssClassNames: "is-hidden" }),
           },
           {
             id: "prefSms",
@@ -180,6 +185,7 @@ function buildCreateAccountFormDef(config = {}) {
               alignment: "horizontal",
               colspan: 4,
             },
+            ...(showCommunicationPreferences ? {} : { appliedCssClassNames: "is-hidden" }),
           },
           {
             id: "prefWhatsapp",
@@ -193,6 +199,7 @@ function buildCreateAccountFormDef(config = {}) {
               alignment: "horizontal",
               colspan: 4,
             },
+            ...(showCommunicationPreferences ? {} : { appliedCssClassNames: "is-hidden" }),
           },
           {
             id: "heading-know-you-better",
@@ -283,6 +290,12 @@ export default async function decorate(block) {
       syncFormDataLayer(form, DEFAULT_FORM_FIELD_MAP);
       attachLiveFormSync(form, DEFAULT_FORM_FIELD_MAP);
     }
+
+    // Individual preference switches — ON by default
+    ['prefEmail', 'prefPhone', 'prefSms', 'prefWhatsapp'].forEach((name) => {
+      const input = block.querySelector(`input[name="${name}"]`);
+      if (input) input.checked = true;
+    });
   }, 100);
 }
 
