@@ -369,7 +369,6 @@ body.frescopa-theme main .form .button,
 body.frescopa-theme main .sign-in .submit-wrapper button,
 body.frescopa-theme main .membership button[type='submit'],
 body.frescopa-theme main .create-account .submit-wrapper button,
-body.frescopa-theme main .user-registration .submit-wrapper button,
 body.frescopa-theme main .child-account-application .submit-wrapper button,
 body.frescopa-theme main .name-change-request .submit-wrapper button,
 body.frescopa-theme main .set-up-auto-save .submit-wrapper button,
@@ -400,7 +399,6 @@ body.frescopa-theme main .form .button:hover,
 body.frescopa-theme main .sign-in .submit-wrapper button:hover,
 body.frescopa-theme main .membership button[type='submit']:hover,
 body.frescopa-theme main .create-account .submit-wrapper button:hover,
-body.frescopa-theme main .user-registration .submit-wrapper button:hover,
 body.frescopa-theme main .child-account-application .submit-wrapper button:hover,
 body.frescopa-theme main .name-change-request .submit-wrapper button:hover,
 body.frescopa-theme main .set-up-auto-save .submit-wrapper button:hover,
@@ -463,18 +461,15 @@ body.frescopa-theme main .sign-in form p {
 }
 
 /* Registration Block */
-body.frescopa-theme main .create-account .form-container,
-body.frescopa-theme main .user-registration .form-container {
+body.frescopa-theme main .create-account .form-container {
   background-color: transparent;
 }
 
-body.frescopa-theme main .create-account form label,
-body.frescopa-theme main .user-registration form label {
+body.frescopa-theme main .create-account form label {
   color: #58181d;
 }
 
-/* User Registration / Create Account – Frescopa machine dropdown */
-body.frescopa-theme main .user-registration .frescopa-machine-field select,
+/* Create Account – Frescopa machine dropdown */
 body.frescopa-theme main .create-account .frescopa-machine-field select {
   width: 100%;
   padding: 14px 20px;
@@ -491,18 +486,15 @@ body.frescopa-theme main .create-account .frescopa-machine-field select {
   cursor: pointer;
 }
 
-body.frescopa-theme main .user-registration .frescopa-machine-field select:focus,
 body.frescopa-theme main .create-account .frescopa-machine-field select:focus {
   outline: none;
   border-color: #b89450;
 }
 
-body.frescopa-theme main .user-registration .frescopa-machine-field select option:not([value=""]),
 body.frescopa-theme main .create-account .frescopa-machine-field select option:not([value=""]) {
   color: #333;
 }
 
-body.frescopa-theme main .user-registration .frescopa-machine-field label,
 body.frescopa-theme main .create-account .frescopa-machine-field label {
   display: none;
 }
