@@ -1,5 +1,5 @@
 import { readBlockConfig } from '../../scripts/aem.js';
-import { isAuthorEnvironment } from '../../scripts/scripts.js';
+import { normalizeAemPath } from '../../scripts/scripts.js';
 import { dispatchCustomEvent } from '../../scripts/custom-events.js';
 
 // AEM DAM base path for quiz images — relative path works on author, needs
@@ -65,15 +65,15 @@ export default async function decorate(block) {
   const cfg = readBlockConfig(block);
 
   const imageBaseUrl = '';
-  const rawCompletionUrl = cfg['completion-url'] || '/en/quiz-results';
-  const completionUrl = isAuthorEnvironment()
-    ? (rawCompletionUrl.endsWith('.html') ? rawCompletionUrl : `${rawCompletionUrl}.html`)
-    : rawCompletionUrl;
+  const rawCompletionUrl = (cfg['completion-url'] || '').toString().trim();
+  const completionUrl = rawCompletionUrl.startsWith('/content/')
+    ? normalizeAemPath(rawCompletionUrl)
+    : '';
 
-  const rawSignInUrl = cfg['sign-in-url'] || '/en/sign-in';
-  const signInUrl = isAuthorEnvironment()
-    ? (rawSignInUrl.endsWith('.html') ? rawSignInUrl : `${rawSignInUrl}.html`)
-    : rawSignInUrl;
+  const rawSignInUrl = (cfg['sign-in-url'] || '').toString().trim();
+  const signInUrl = rawSignInUrl.startsWith('/content/')
+    ? normalizeAemPath(rawSignInUrl)
+    : '';
   const completionDelay = parseInt(cfg['completion-delay'], 10) || 0;
   const showProgress = cfg['show-progress']?.toLowerCase() !== 'false';
   const startedEvent = cfg['started-event-type'] || '';
@@ -253,7 +253,10 @@ export default async function decorate(block) {
     dispatchCustomEvent(endedEvent);
 
     setTimeout(
-      () => window.location.assign(isLoggedIn ? completionUrl : signInUrl),
+      () => {
+        const target = isLoggedIn ? completionUrl : signInUrl;
+        if (target) window.location.assign(target);
+      },
       isLoggedIn ? Math.max(1000, completionDelay || 0) : 1000
     );
   });

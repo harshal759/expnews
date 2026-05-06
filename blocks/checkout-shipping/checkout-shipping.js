@@ -1,6 +1,7 @@
 import { readBlockConfig } from '../../scripts/aem.js';
 import { dispatchCustomEvent } from '../../scripts/custom-events.js';
 import { buildFormDataLayerUpdates, DEFAULT_FORM_FIELD_MAP } from '../../scripts/form-data-layer.js';
+import { normalizeAemPath } from '../../scripts/scripts.js';
 
 function isTruthy(value) {
   return value === true || String(value || '').trim().toLowerCase() === 'true';
@@ -115,12 +116,8 @@ function prefillFromRegistration(block) {
 function getBackPath(config) {
   const raw = (config['back-path'] || config.backpath || '').toString().trim();
   if (!raw) return null;
-  if (raw.includes('/')) return raw;
-  const currentPath = (window.location.pathname || '/').replace(/\/$/, '');
-  const lastSlash = currentPath.lastIndexOf('/');
-  const basePath = lastSlash > 0 ? currentPath.substring(0, lastSlash) : '';
-  const targetPage = currentPath.endsWith('.html') ? `${raw}.html` : raw;
-  return `${basePath}/${targetPage}`;
+  if (raw.startsWith('/content/')) return normalizeAemPath(raw);
+  return null;
 }
 
 function attachBackButton(block, config) {
@@ -128,7 +125,8 @@ function attachBackButton(block, config) {
   if (!backBtn || backBtn.tagName !== 'BUTTON') return;
   backBtn.type = 'button';
   backBtn.addEventListener('click', () => {
-    window.location.href = getBackPath(config) || '/en/cart';
+    const targetPath = getBackPath(config);
+    if (targetPath) window.location.href = targetPath;
   });
 }
 
@@ -163,14 +161,6 @@ function persistShippingStep(data) {
   } catch {
     /* ignore */
   }
-}
-
-function getOrderSummaryFallbackPath(pageName = 'order-summary') {
-  const currentPath = (window.location.pathname || '/').replace(/\/$/, '');
-  const lastSlash = currentPath.lastIndexOf('/');
-  const basePath = lastSlash > 0 ? currentPath.substring(0, lastSlash) : '';
-  const targetPage = currentPath.endsWith('.html') ? `${pageName}.html` : pageName;
-  return `${basePath}/${targetPage}`;
 }
 
 function isElementAvailableAndVisible(el) {
@@ -221,10 +211,8 @@ function attachSubmitHandler(block, config) {
 
       const continuePath = (config['continue-path'] || config.continuepath || '').toString().trim();
       setTimeout(() => {
-        if (continuePath && continuePath.includes('/')) {
-          window.location.href = continuePath;
-        } else {
-          window.location.href = getOrderSummaryFallbackPath(continuePath || 'order-summary');
+        if (continuePath && continuePath.startsWith('/content/')) {
+          window.location.href = normalizeAemPath(continuePath);
         }
       }, 1000);
     }

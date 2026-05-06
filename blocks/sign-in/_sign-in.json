@@ -49,7 +49,7 @@
           "valueType": "string",
           "name": "create-account-url",
           "label": "Create Account URL",
-          "description": "Page for the 'Create an account' link. Leave empty to use smart path construction."
+          "description": "Page for the 'Create an account' link. Use a full AEM path (e.g. /content/<site-name>/language-masters/<language-node>/registration)."
         },
         {
           "component": "text",

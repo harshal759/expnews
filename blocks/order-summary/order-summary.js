@@ -1,5 +1,6 @@
 import { dispatchCustomEvent } from "../../scripts/custom-events.js";
 import { readBlockConfig } from "../../scripts/aem.js";
+import { normalizeAemPath } from "../../scripts/scripts.js";
 
 /**
  * Generate random purchase order number
@@ -89,19 +90,13 @@ function loadCheckoutMeta() {
   };
 }
 
-/**
- * Navigate to a sibling page, automatically appending .html on author environments.
- * @param {string} page - Page name (without .html)
- * @param {boolean} returnOnly - If true, return the URL instead of navigating
- * @returns {string|undefined} URL when returnOnly is true
- */
-function navigateToPage(page, returnOnly = false) {
-  const currentPath = window.location.pathname;
-  const basePath = currentPath.substring(0, currentPath.lastIndexOf("/"));
-  const targetPage = currentPath.endsWith('.html') ? `${page}.html` : page;
-  const url = `${basePath}/${targetPage}`;
-  if (returnOnly) return url;
-  window.location.href = url;
+function isFullAemContentPath(path) {
+  return typeof path === 'string' && path.trim().startsWith('/content/');
+}
+
+function getNormalizedAemContentPath(path) {
+  if (!isFullAemContentPath(path)) return null;
+  return normalizeAemPath(path.trim());
 }
 
 /**
@@ -316,8 +311,8 @@ function buildButtons(config = {}) {
   backBtn.textContent = "BACK";
   backBtn.addEventListener("click", () => {
     const backPath = (config['back-path'] || config.backpath || '').toString().trim();
-    if (backPath) window.location.href = backPath;
-    else navigateToPage("checkout");
+    const targetPath = getNormalizedAemContentPath(backPath);
+    if (targetPath) window.location.href = targetPath;
   });
 
   const confirmBtn = document.createElement("button");
@@ -354,12 +349,8 @@ function handleConfirmOrder(config = {}) {
 
   setTimeout(() => {
     const confirmPath = (config['confirm-path'] || config.confirmpath || '').toString().trim();
-    let basePath;
-    if (confirmPath && confirmPath.includes('/')) {
-      basePath = confirmPath;
-    } else {
-      basePath = navigateToPage(confirmPath || 'order-confirmation', true);
-    }
+    const basePath = getNormalizedAemContentPath(confirmPath);
+    if (!basePath) return;
     const sep = basePath.includes('?') ? '&' : '?';
     window.location.href = `${basePath}${sep}order=${encodeURIComponent(purchaseOrderNumber)}`;
   }, 100);

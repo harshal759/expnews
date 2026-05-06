@@ -22,20 +22,20 @@
       "id": "coffee-quiz-frescopa",
       "fields": [
         {
-          "component": "text",
+          "component": "aem-content",
           "name": "completion-url",
           "label": "Completion URL",
           "value": "",
           "valueType": "string",
-          "description": "Page to navigate to after quiz is submitted (requires user to be logged in)"
+          "description": "Page to navigate to after quiz is submitted (requires user to be logged in). Use a full AEM path (e.g. /content/<site-name>/language-masters/<language-node>/quiz-results)."
         },
         {
-          "component": "text",
+          "component": "aem-content",
           "name": "sign-in-url",
           "label": "Sign-In URL",
           "value": "",
           "valueType": "string",
-          "description": "Page to redirect to when user is not logged in and clicks Submit"
+          "description": "Page to redirect to when user is not logged in and clicks Submit. Use a full AEM path (e.g. /content/<site-name>/language-masters/<language-node>/sign-in)."
         },
         {
           "component": "text",

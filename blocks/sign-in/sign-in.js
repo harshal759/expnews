@@ -1,4 +1,4 @@
-import { isAuthorEnvironment, normalizeAemPath } from "../../scripts/scripts.js";
+import { normalizeAemPath } from "../../scripts/scripts.js";
 import { readBlockConfig } from "../../scripts/aem.js";
 import { dispatchCustomEvent } from "../../scripts/custom-events.js";
 import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP, attachLiveFormSync } from "../../scripts/form-data-layer.js";
@@ -27,8 +27,6 @@ export default async function decorate(block) {
   const config = readBlockConfig(block) || {};
   /* Hide button config rows on published/live, same as hero/cards */
   [...block.children].forEach((row) => { row.style.display = 'none'; });
-
-  const isAuthor = isAuthorEnvironment();
 
   // Prepare logo image if authored
   const logoImage = config.logoImage ?? config['logo-image'];
@@ -120,7 +118,7 @@ export default async function decorate(block) {
   setTimeout(() => {
     applyButtonConfigToSubmitButton(block, config);
     attachSignInHandler(block);
-    addCreateAccountLink(block, isAuthor, config);
+    addCreateAccountLink(block, config);
   }, 100);
 }
 
@@ -456,7 +454,7 @@ function showErrorMessage(form, message) {
   }, 5000);
 }
 
-function addCreateAccountLink(block, isAuthor, config = {}) {
+function addCreateAccountLink(block, config = {}) {
   const formElement = block.querySelector("form");
   if (!formElement) return;
 
@@ -469,34 +467,14 @@ function addCreateAccountLink(block, isAuthor, config = {}) {
   divider.className = "sign-in-divider";
   divider.innerHTML = "<span>or</span>";
 
-  // Create account link with smart path construction
+  // Create account link only when a full AEM path is authored
   const createAccountLink = document.createElement("a");
   createAccountLink.className = "create-account-link";
   createAccountLink.textContent = "Create an account";
 
-  // Determine registration path: use authored config if available, otherwise smart path construction
-  let registrationPath = config['create-account-url'] ?? block.dataset.createAccountUrl;
-  
-  if (!registrationPath) {
-    // Fallback to smart path construction
-    const currentPath = window.location.pathname;
-
-    if (isAuthor) {
-      // For author, replace 'sign-in.html' with 'en/registration.html'
-      registrationPath = currentPath.replace(
-        "/sign-in.html",
-        "/en/registration.html"
-      );
-    } else {
-      // For EDS publish, replace '/sign-in' with '/registration'
-      registrationPath = currentPath.replace(
-        /\/sign-in(\.html)?$/,
-        "/registration"
-      );
-    }
-  }
-
-  createAccountLink.href = registrationPath;
+  const registrationPath = (config['create-account-url'] ?? block.dataset.createAccountUrl ?? '').toString().trim();
+  if (!registrationPath.startsWith('/content/')) return;
+  createAccountLink.href = normalizeAemPath(registrationPath);
 
   linkSection.append(divider, createAccountLink);
   formElement.parentElement.append(linkSection);

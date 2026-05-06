@@ -853,20 +853,20 @@
     "id": "checkout-shipping",
     "fields": [
       {
-        "component": "text",
+        "component": "aem-content",
         "name": "back-path",
         "label": "Back Path",
         "value": "",
         "valueType": "string",
-        "description": "Where to navigate when BACK is clicked. Use a full path (e.g. /en/cart) or just a page name (e.g. cart). Defaults to /en/cart."
+        "description": "Where to navigate when BACK is clicked. Use a full AEM path (e.g. /content/<site-name>/language-masters/<language-node>/cart)."
       },
       {
-        "component": "text",
+        "component": "aem-content",
         "name": "continue-path",
         "label": "Continue Path",
-        "value": "order-summary",
+        "value": "",
         "valueType": "string",
-        "description": "Where to navigate after CONTINUE. Use a full path (e.g. /en/order-summary) or just a page name (e.g. order-summary). .html is added automatically on author. Defaults to sibling order-summary page."
+        "description": "Where to navigate after CONTINUE. Use a full AEM path (e.g. /content/<site-name>/language-masters/<language-node>/order-summary)."
       },
       {
         "component": "boolean",
@@ -2200,7 +2200,7 @@
         "valueType": "string",
         "name": "create-account-url",
         "label": "Create Account URL",
-        "description": "Page for the 'Create an account' link. Leave empty to use smart path construction."
+        "description": "Page for the 'Create an account' link. Use a full AEM path (e.g. /content/<site-name>/language-masters/<language-node>/registration)."
       },
       {
         "component": "text",
@@ -8618,20 +8618,20 @@
         "description": "Optional Launch event fired when order summary loads."
       },
       {
-        "component": "text",
+        "component": "aem-content",
         "name": "back-path",
         "label": "Back Path",
-        "value": "checkout",
+        "value": "",
         "valueType": "string",
-        "description": "Where to navigate on BACK. Use a full path (e.g. /en/checkout) or just a page name (e.g. checkout). .html is added automatically on author."
+        "description": "Where to navigate on BACK. Use a full AEM path (e.g. /content/<site-name>/language-masters/<language-node>/checkout)."
       },
       {
-        "component": "text",
+        "component": "aem-content",
         "name": "confirm-path",
         "label": "Confirm Path",
-        "value": "order-confirmation",
+        "value": "",
         "valueType": "string",
-        "description": "Where to navigate on CONFIRM ORDER. Use a full path (e.g. /en/order-confirmation) or just a page name (e.g. order-confirmation). Order number appended as ?order=. .html is added automatically on author."
+        "description": "Where to navigate on CONFIRM ORDER. Use a full AEM path (e.g. /content/<site-name>/language-masters/<language-node>/order-confirmation). Order number is appended as ?order=."
       },
       {
         "component": "text",
@@ -8681,20 +8681,20 @@
     "id": "coffee-quiz-frescopa",
     "fields": [
       {
-        "component": "text",
+        "component": "aem-content",
         "name": "completion-url",
         "label": "Completion URL",
         "value": "",
         "valueType": "string",
-        "description": "Page to navigate to after quiz is submitted (requires user to be logged in)"
+        "description": "Page to navigate to after quiz is submitted (requires user to be logged in). Use a full AEM path (e.g. /content/<site-name>/language-masters/<language-node>/quiz-results)."
       },
       {
-        "component": "text",
+        "component": "aem-content",
         "name": "sign-in-url",
         "label": "Sign-In URL",
         "value": "",
         "valueType": "string",
-        "description": "Page to redirect to when user is not logged in and clicks Submit"
+        "description": "Page to redirect to when user is not logged in and clicks Submit. Use a full AEM path (e.g. /content/<site-name>/language-masters/<language-node>/sign-in)."
       },
       {
         "component": "text",
