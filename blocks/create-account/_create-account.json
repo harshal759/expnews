@@ -44,6 +44,14 @@
         },
         {
           "component": "boolean",
+          "name": "showaddress",
+          "label": "Show Address Fields",
+          "value": "true",
+          "valueType": "boolean",
+          "description": "Show or hide the address, ZIP code, and city fields."
+        },
+        {
+          "component": "boolean",
           "name": "showloyaltyprogram",
           "label": "Show Loyalty Program",
           "value": "false",

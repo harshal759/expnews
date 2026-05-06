@@ -43,6 +43,7 @@ function buildCreateAccountFormDef(config = {}) {
   const showCommunicationPreferences = config.showcommunicationpreferences !== undefined
     ? isTruthy(config.showcommunicationpreferences)
     : true;
+  const showAddress = config.showaddress !== undefined ? isTruthy(config.showaddress) : true;
   const shoeSizes = ["", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45"];
   const shirtSizes = ["", "s", "m", "l", "xl", "xxl"];
   const favoriteColors = ["", "black", "blue", "green", "orange", "pink", "purple", "red", "white", "yellow"];
@@ -100,6 +101,7 @@ function buildCreateAccountFormDef(config = {}) {
             label: { value: "Address" },
             autoComplete: "street-address",
             properties: { colspan: 12 },
+            ...(showAddress ? {} : { appliedCssClassNames: "is-hidden" }),
           },
           {
             id: "zipCode",
@@ -108,6 +110,7 @@ function buildCreateAccountFormDef(config = {}) {
             label: { value: "ZIP code" },
             autoComplete: "postal-code",
             properties: { colspan: 6 },
+            ...(showAddress ? {} : { appliedCssClassNames: "is-hidden" }),
           },
           {
             id: "city",
@@ -116,6 +119,7 @@ function buildCreateAccountFormDef(config = {}) {
             label: { value: "City" },
             autoComplete: "address-level2",
             properties: { colspan: 6 },
+            ...(showAddress ? {} : { appliedCssClassNames: "is-hidden" }),
           },
           {
             id: "dateOfBirth",
