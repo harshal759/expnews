@@ -13,6 +13,9 @@
 @import url('./industry-specific/citi-signal-theme/citi-signal-theme.css');
 @import url('./industry-specific/frescopa-theme/frescopa-theme.css');
 @import url('./industry-specific/carvelo-theme/carvelo-theme.css');
+@import url('./industry-specific/wehealthcare-theme/wehealthcare-theme.css');
+@import url('./industry-specific/fly-theme/fly-theme.css');
+@import url('./industry-specific/securbank-theme/securbank-theme.css');
 
 /*
  :root {
@@ -358,177 +361,6 @@ body.blue-theme {
 body.green-theme {
   --main-accent-color: #059669;   /* Fresh Emerald */
   --link-hover-color: #10B981;    /* Lighter Mint Green */
-}
-
-.wehealthcare-theme {
-  --main-accent-color: #00c4ff;
-  --nav-text-color:#000000;
-  --light-color: #f6f6f6;
-}
-
-/* Fly theme (copy of wehealthcare – buttons, header, etc.) */
-.fly-theme {
-  --main-accent-color: #1979c3;
-  --nav-text-color: #000000;
-  --light-color: #f6f6f6;
-}
-
-body.fly-theme header .nav-wrapper,
-body.fly-theme footer {
-  background-color: #fff;
-  color: var(--nav-text-color);
-}
-
-body.fly-theme header .nav-wrapper nav .nav-sections ul > li > a::before {
-  background: var(--main-accent-color);
-}
-
-body.fly-theme header .nav-wrapper nav .nav-sections ul > li > a:hover {
-  color: var(--main-accent-color);
-}
-
-/* Fly theme font sizes */
-body.fly-theme p {
-  font-size: 15px !important;
-}
-body.fly-theme p strong {
-  font-size: 15px !important;
-}
-body.fly-theme h1 {
-  font-size: 28px;
-}
-body.fly-theme .hero h1 {
-  font-size: 45px;
-}
-
-
-body.fly-theme h2 {
-  font-size: 23px;
-}
-
-body.fly-theme h3 {
-  font-size: 20px;
-}
-body.fly-theme h4 {
-  font-size: 18px;
-}
-body.fly-theme h5 {
-  font-size: 16px;
-}
-body.fly-theme .cta-button a.button {
-    font-size: 16px;
-    padding: 10px 24px !important;
-    border-radius: 25px;
-}
-
-body.fly-theme .cards > ul > li .cards-card-body p {
-  font-size: 15px;
-}
-body.fly-theme .hero p {
-    font-size: 20px !important;
-    font-weight: 300;
-    font-family: 'Adobe Clean';
-}
-body.fly-theme  .cta-button a.button {
-  font-size: 16px;
-}
-body.fly-theme .cta-button a.button::after{
-    font-size: 17px;
-    margin-left: 0px;
-}
-
-/* SecurFinancial / SecurBank theme */
-.securbank-theme,
-body.securbank-theme,
-.securfinancial-theme,
-body.securfinancial-theme {
-  --main-accent-color: #0296a6;
-  --link-hover-color: #038f9e;
-  --main-accent-hover: #027a88;
-  --button-border-radius: 30px;
-}
-
-body.securbank-theme a.button,
-body.securbank-theme button,
-body.securfinancial-theme a.button,
-body.securfinancial-theme button {
-  border-radius: 30px;
-}
-
-body.securbank-theme h1,
-body.securfinancial-theme h1 {
-  font-size: 39px !important;
-  line-height: 1.5!important;
-}
-
-body.securbank-theme h2,
-body.securfinancial-theme h2 {
-  font-size: 36px!important;
-  line-height: 1.5!important;
-}
-
-body.securbank-theme header .nav-wrapper,
-body.securfinancial-theme header .nav-wrapper {
-  background-color: var(--main-accent-color);
-  color: var(--text-light);
-}
-
-/* SecurFinancial theme: footer white with black text and links */
-body.securbank-theme footer,
-body.securfinancial-theme footer {
-  background-color: #fff;
-  color: #000;
-}
-
-body.securbank-theme footer .footer,
-body.securfinancial-theme footer .footer,
-body.securbank-theme footer .footer p,
-body.securfinancial-theme footer .footer p,
-body.securbank-theme footer .footer a,
-body.securfinancial-theme footer .footer a {
-  color: #000;
-}
-body.securbank-theme footer .footer a::after {
-  display:none;
-}
-body.securbank-theme footer .footer a {
-    padding: 10px;
-}
-body.securbank-theme footer .footer a:hover,
-body.securfinancial-theme footer .footer a:hover {
-  color: var(--main-accent-color);
-}
-
-body.securbank-theme header .nav-wrapper nav .nav-sections ul > li > a::before,
-body.securfinancial-theme header .nav-wrapper nav .nav-sections ul > li > a::before {
-  background: var(--text-light);
-}
-
-body.securbank-theme header .nav-wrapper nav .nav-sections ul > li > a:hover,
-body.securfinancial-theme header .nav-wrapper nav .nav-sections ul > li > a:hover {
-  color: #000;
-}
-
-/* SecurFinancial theme: search icon no invert */
-body.securbank-theme .search.search-icon .search-box .icon img,
-body.securbank-theme .search.search-icon .search-trigger .icon img,
-body.securfinancial-theme .search.search-icon .search-box .icon img,
-body.securfinancial-theme .search.search-icon .search-trigger .icon img {
-  filter: invert(0);
-}
-
-body.fly-theme header .nav-wrapper,
-body.fly-theme footer {
-  background-color: #fff;
-  color: var(--nav-text-color);
-}
-
-body.fly-theme header .nav-wrapper nav .nav-sections ul > li > a::before {
-  background: var(--main-accent-color);
-}
-
-body.fly-theme header .nav-wrapper nav .nav-sections ul > li > a:hover {
-  color: var(--main-accent-color);
 }
 
 /*brand header footer brand themes*/
@@ -1047,9 +879,6 @@ button {
 .section.section-horizontal-widths.cards-container{
     padding: 0 32px;
 }
-.securbank-theme .section.section-horizontal-widths.cards-container{
-    padding: 0 ;
-}
 .section.section-horizontal-widths.cards-container div {
     padding: 0;
 }
@@ -1217,10 +1046,6 @@ main .cards-container {
 main > .section {
   margin: 40px 0;
   min-height: 50px;
-}
-
-body.securbank-theme main > .section {
-  margin-top: 0;
 }
 
 /* When full width is not selected, constrain section to content width and center */
@@ -2114,21 +1939,10 @@ main .section.home-getoffer-container > div:nth-child(1) .cards > ul > li img {
   background: transparent !important;
   color:#fff !important;
 }
-.securbank-theme .hero.image-background-text-left h1, .securbank-theme .hero.image-background-text-left h2, .securbank-theme .hero.image-background-text-left h3, .securbank-theme .hero.image-background-text-left h4, .securbank-theme .hero.image-background-text-left h5, .securbank-theme .hero.image-background-text-left h6, .securbank-theme .hero.image-background-text-left p{
- margin:0;
-}
 .hero h1::after {
     margin: unset;
     margin-bottom: 10px;
     margin-top: 10px;
-}
- .securbank-theme .TopRibbon {
-    color: #fff;
-    background-color: #171c28;
-    background-image: url(https://demo-system-next.s3.eu-north-1.amazonaws.com/assets/securfinancial/visual-2.png);
-    background-size: auto;
-    background-position: 50% 40%;
-    background-repeat: no-repeat
 }
 .luma-theme .TopRibbon {
     display: flex;
@@ -2144,13 +1958,6 @@ main .section.home-getoffer-container > div:nth-child(1) .cards > ul > li img {
     margin: 0 auto
 }
 
-body.securbank-theme main li::marker {
-  color: var(--main-accent-color);
-}
-
-body.securbank-theme main :is(ul, menu) ul {
-  list-style-type: disc;
-}
 
 
 #offer-bar {

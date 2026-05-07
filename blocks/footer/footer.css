@@ -75,20 +75,6 @@ body.fly-theme main {
   flex: 1;
 }
 
-/* WeHealthcare theme - sticky footer layout */
-body.wehealthcare-theme {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-body.wehealthcare-theme main {
-  flex: 1;
-}
-
-body.wehealthcare-theme footer {
-  margin-top: auto;
-}
 
 @media (width >= 900px) {
   footer .footer > div {

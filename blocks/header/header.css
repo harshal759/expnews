@@ -80,16 +80,6 @@ header nav:has(> .TopRibbon) {
   }
 }
 
-.wehealthcare-theme header nav[aria-expanded='true'] {
-  min-height: 0;
-  overflow: visible;
-  padding: 0;
-  height: auto;
-}
-
-.wehealthcare-theme .section.nav-sections {
-  padding: 22px 32px;
-}
 
 .fly-theme header nav[aria-expanded='true'] {
   min-height: 0;
@@ -225,9 +215,6 @@ header .nav-brand {
   line-height: 1;
 }
 
-.wehealthcare-theme header .nav-brand {
-  flex-basis: unset;
-}
 
 .fly-theme header .nav-brand {
   flex-basis: unset;
@@ -252,10 +239,6 @@ header nav .nav-brand picture {
   aspect-ratio: 1383 / 378;
 }
 
-.wehealthcare-theme header nav .nav-brand img {
-  width: auto;
-  height: 36.5px;
-}
 
 .fly-theme header nav .nav-brand img {
   width: auto;
@@ -267,7 +250,6 @@ header nav .nav-brand picture {
   height: 36.5px;
 }
 
-.wehealthcare-theme header nav .nav-brand picture,
 .fly-theme header nav .nav-brand picture,
 .securbank-theme header nav .nav-brand picture {
   width: 133.5px;
@@ -636,20 +618,6 @@ header nav .nav-tools .icon-search-light  {
 }
 
 
-body.wehealthcare-theme header nav .nav-sections ul > li > a{
-  color:#000;
-}
-
- body.wehealthcare-theme header .nav-wrapper {
-  background-color: #fff;
-}
-
-body.wehealthcare-theme .lang-switcher .lang-button{
-  color: #000;
-  border: 1px solid rgb(0 0 0 / 40%);
-}
-
-body.wehealthcare-theme a.sign-in-btn,
 body.fly-theme a.sign-in-btn {
   text-align: center;
   color: #000;
@@ -733,10 +701,6 @@ header nav .nav-tools .lang-switcher { display: inline-flex; }
     align-items: flex-start;
   }
   
-  body.wehealthcare-theme header nav .nav-sections ul > li > a{
-    color:#000;
-  }
-
   body.fly-theme header nav .nav-sections ul > li > a {
     color: #000;
   }
