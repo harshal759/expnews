@@ -21,6 +21,24 @@
       "id": "add-external",
       "fields": [
         {
+          "component": "select",
+          "name": "variant",
+          "label": "Variant",
+          "value": "account",
+          "valueType": "string",
+          "description": "Form variant: Add external account (Type: Bank Account) or Add external credit card (Type: Credit Card)",
+          "options": [
+            {
+              "name": "Add external account",
+              "value": "account"
+            },
+            {
+              "name": "Add external credit card",
+              "value": "credit-card"
+            }
+          ]
+        },
+        {
           "component": "text",
           "name": "custom-class",
           "label": "Custom class",
