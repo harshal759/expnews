@@ -355,7 +355,7 @@ function addCreateAccountLink(block, config = {}) {
   createAccountLink.textContent = "Create an account";
 
   const registrationPath = (config['create-account-url'] ?? block.dataset.createAccountUrl ?? '').toString().trim();
-  if (!registrationPath.startsWith('/content/')) return;
+  if (!registrationPath.startsWith('/content/') && !/^https?:\/\//i.test(registrationPath)) return;
   createAccountLink.href = normalizeAemPath(registrationPath);
 
   linkSection.append(divider, createAccountLink);

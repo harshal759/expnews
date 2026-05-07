@@ -66,12 +66,12 @@ export default async function decorate(block) {
 
   const imageBaseUrl = '';
   const rawCompletionUrl = (cfg['completion-url'] || '').toString().trim();
-  const completionUrl = rawCompletionUrl.startsWith('/content/')
+  const completionUrl = (rawCompletionUrl.startsWith('/content/') || /^https?:\/\//i.test(rawCompletionUrl))
     ? normalizeAemPath(rawCompletionUrl)
     : '';
 
   const rawSignInUrl = (cfg['sign-in-url'] || '').toString().trim();
-  const signInUrl = rawSignInUrl.startsWith('/content/')
+  const signInUrl = (rawSignInUrl.startsWith('/content/') || /^https?:\/\//i.test(rawSignInUrl))
     ? normalizeAemPath(rawSignInUrl)
     : '';
   const completionDelay = parseInt(cfg['completion-delay'], 10) || 0;

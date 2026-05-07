@@ -116,7 +116,7 @@ function prefillFromRegistration(block) {
 function getBackPath(config) {
   const raw = (config['back-path'] || config.backpath || '').toString().trim();
   if (!raw) return null;
-  if (raw.startsWith('/content/')) return normalizeAemPath(raw);
+  if (raw.startsWith('/content/') || /^https?:\/\//i.test(raw)) return normalizeAemPath(raw);
   return null;
 }
 
@@ -211,7 +211,7 @@ function attachSubmitHandler(block, config) {
 
       const continuePath = (config['continue-path'] || config.continuepath || '').toString().trim();
       setTimeout(() => {
-        if (continuePath && continuePath.startsWith('/content/')) {
+        if (continuePath && (continuePath.startsWith('/content/') || /^https?:\/\//i.test(continuePath))) {
           window.location.href = normalizeAemPath(continuePath);
         }
       }, 1000);

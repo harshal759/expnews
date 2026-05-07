@@ -91,7 +91,9 @@ function loadCheckoutMeta() {
 }
 
 function isFullAemContentPath(path) {
-  return typeof path === 'string' && path.trim().startsWith('/content/');
+  if (typeof path !== 'string') return false;
+  const p = path.trim();
+  return p.startsWith('/content/') || /^https?:\/\//i.test(p);
 }
 
 function getNormalizedAemContentPath(path) {
