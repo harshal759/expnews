@@ -1,5 +1,5 @@
 // Flights Block - Displays flight search results (GraphQL CF + fallback to sample data)
-import { isAuthorEnvironment } from '../../scripts/scripts.js';
+import { isAuthorEnvironment, normalizeAemPath } from '../../scripts/scripts.js';
 import { readBlockConfig } from '../../scripts/aem.js';
 import { dispatchCustomEvent } from '../../scripts/custom-events.js';
 import { getEnvironmentValue, getHostname } from '../../scripts/utils.js';
@@ -327,6 +327,7 @@ async function fetchAirportsFromGraphQL(contentFragmentPath) {
 }
 // Live: site-relative path. Author: derive from current path (path up to /en/ + checkout.html)
 const LIVE_CHECKOUT_PATH = '/en/checkout';
+let configuredCheckoutPath = null;
 
 function getAuthorCheckoutPath() {
   const pathname = window.location.pathname;
@@ -337,6 +338,7 @@ function getAuthorCheckoutPath() {
 }
 
 export function getCheckoutPath() {
+  if (configuredCheckoutPath) return normalizeAemPath(configuredCheckoutPath);
   if (typeof window === 'undefined') return LIVE_CHECKOUT_PATH;
   const isAuthor = window.location.hostname.includes('author') || window.location.hostname.includes('adobeaemcloud');
   return isAuthor ? getAuthorCheckoutPath() : LIVE_CHECKOUT_PATH;
@@ -633,6 +635,8 @@ function handleFlightSelect(flight) {
 export default async function decorate(block) {
   const config = readBlockConfig(block) || {};
   const isAuthor = isAuthorEnvironment();
+
+  configuredCheckoutPath = config.checkoutpath || config['checkoutpath'] || null;
 
   let flightDropdownContentFragmentPath = null;
   if(config.flightdropdowncontentfragment || config['flightdropdowncontentfragment']) {

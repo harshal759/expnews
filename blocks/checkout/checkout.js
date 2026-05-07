@@ -1,5 +1,6 @@
 import { dispatchCustomEvent } from '../../scripts/custom-events.js';
 import { readBlockConfig } from '../../scripts/aem.js';
+import { normalizeAemPath } from '../../scripts/scripts.js';
 /**
  * Checkout block – consolidates selected flights from the flights block and shows Trip Summary.
  * Selected flights are stored in localStorage (project_selected_flights) when user clicks Select on any flight.
@@ -12,7 +13,8 @@ const BOOKING_STORAGE_KEY = 'project_booking_confirmation';
 
 const LIVE_CONFIRMATION_PATH = '/en/confirmation';
 
-function getConfirmationPath() {
+function getConfirmationPath(authoredPath) {
+  if (authoredPath) return normalizeAemPath(authoredPath);
   if (typeof window === 'undefined') return LIVE_CONFIRMATION_PATH;
   const isAuthor = window.location.hostname.includes('author') || window.location.hostname.includes('adobeaemcloud');
   if (isAuthor) {
@@ -445,7 +447,7 @@ function renderTripTotal(sidebar, total, config) {
         window.updateDataLayer(bookingUpdates, true);
         dispatchCustomEvent(config.buttoneventtype);
       }
-      setTimeout(() => { window.location.href = getConfirmationPath()+ '?order='+orderId; }, 2000);
+      setTimeout(() => { window.location.href = getConfirmationPath(config.confirmationpath) + '?order=' + orderId; }, 2000);
     };
   }
   sidebar.appendChild(box);

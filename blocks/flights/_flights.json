@@ -49,6 +49,13 @@
           "valueType": "string"
         },
         {
+          "component": "aem-content",
+          "valueType": "string",
+          "name": "checkoutpath",
+          "label": "Checkout Page Path",
+          "description": "Page to redirect to when user clicks Book Now. Defaults to /en/checkout if not set."
+        },
+        {
           "component": "text",
           "name": "custom-class",
           "label": "Custom class",
