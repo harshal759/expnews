@@ -2,13 +2,39 @@ import { readBlockConfig } from '../../scripts/aem.js';
 import { dispatchCustomEvent } from '../../scripts/custom-events.js';
 import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP, attachLiveFormSync } from '../../scripts/form-data-layer.js';
 
-const DEFAULT_FORM_TITLE = 'Book a Test Drive';
-const DEFAULT_SUCCESS_MESSAGE = 'Thank you! Your test drive has been booked. We will contact you shortly to confirm your appointment.';
-const DEFAULT_CAR_MODELS = ['Carvelo Sedan', 'Carvelo SUV', 'Carvelo Luxury', 'Carvelo Electric'];
-const TIME_SLOTS = ['Morning (9AM – 12PM)', 'Afternoon (12PM – 4PM)', 'Evening (4PM – 7PM)'];
+const DEFAULT_TIME_SLOTS = ['9 AM', '10 AM', '11 AM'];
+const DEFAULT_DAYS_SHOWN = 3;
+
+const SHORT_DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const SHORT_MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+const VARIANTS = {
+  'test-drive': {
+    formTitle: 'Schedule test drive',
+    submitLabel: 'Schedule arrival',
+    successMessage: 'Thank you! Your test drive has been scheduled. We will confirm your appointment shortly.',
+    showAddressSection: true,
+  },
+  'schedule-appointment': {
+    formTitle: 'Schedule an appointment',
+    submitLabel: 'Schedule appointment',
+    successMessage: 'Thank you! Your appointment has been scheduled. We will confirm shortly.',
+    showAddressSection: false,
+  },
+};
+
+function normalizeVariant(value) {
+  return String(value || 'test-drive').trim().toLowerCase();
+}
 
 function isTruthy(value) {
   return value === true || String(value || '').trim().toLowerCase() === 'true';
+}
+
+function addDays(date, n) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + n);
+  return d;
 }
 
 function applyButtonConfigToSubmitButton(block, config) {
@@ -24,19 +50,88 @@ function applyButtonConfigToSubmitButton(block, config) {
   if (buttonData && String(buttonData).trim()) submitButton.dataset.buttonData = String(buttonData).trim();
 }
 
-function buildTestDriveFormDef(config = {}) {
-  const formTitle = config['form-title'] || DEFAULT_FORM_TITLE;
-  const submitLabel = config['submit-label'] || 'Book Test Drive';
+function buildFormDef(variantDefaults, config) {
+  const formTitle = config['form-title'] || variantDefaults.formTitle;
+  const submitLabel = config['submit-label'] || variantDefaults.submitLabel;
+  const showAddress = variantDefaults.showAddressSection;
 
-  const rawModels = config['car-models'] || '';
-  const carModels = rawModels
-    ? rawModels.split(',').map((m) => m.trim()).filter(Boolean)
-    : DEFAULT_CAR_MODELS;
-  const carModelEnum = ['', ...carModels];
-  const carModelEnumNames = ['Select a model...', ...carModels];
+  const personalFields = [
+    {
+      id: 'personal-info-heading',
+      fieldType: 'heading',
+      label: { value: 'Your personal informations' },
+      appliedCssClassNames: 'col-12 td-section-heading',
+    },
+    {
+      id: 'firstName',
+      name: 'firstName',
+      fieldType: 'text-input',
+      label: { value: 'First Name' },
+      autoComplete: 'given-name',
+      required: true,
+      properties: { colspan: 6 },
+    },
+    {
+      id: 'lastName',
+      name: 'lastName',
+      fieldType: 'text-input',
+      label: { value: 'Last Name' },
+      autoComplete: 'family-name',
+      required: true,
+      properties: { colspan: 6 },
+    },
+    {
+      id: 'email',
+      name: 'email',
+      fieldType: 'text-input',
+      label: { value: 'Email' },
+      autoComplete: 'email',
+      required: true,
+      properties: { colspan: 6 },
+    },
+    {
+      id: 'phone',
+      name: 'phone',
+      fieldType: 'text-input',
+      label: { value: 'Phone number' },
+      autoComplete: 'tel',
+      required: true,
+      properties: { colspan: 6 },
+    },
+  ];
 
-  const timeEnum = ['', ...TIME_SLOTS];
-  const timeEnumNames = ['Select a time...', ...TIME_SLOTS];
+  const addressFields = showAddress ? [
+    {
+      id: 'address-heading',
+      fieldType: 'heading',
+      label: { value: 'Vehicle arrival address' },
+      appliedCssClassNames: 'col-12 td-section-heading',
+    },
+    {
+      id: 'address',
+      name: 'address',
+      fieldType: 'text-input',
+      label: { value: 'Address' },
+      autoComplete: 'street-address',
+      properties: { colspan: 6 },
+    },
+    {
+      id: 'city',
+      name: 'city',
+      fieldType: 'text-input',
+      label: { value: 'City' },
+      autoComplete: 'address-level2',
+      properties: { colspan: 6 },
+    },
+    {
+      id: 'zipCode',
+      name: 'zipCode',
+      fieldType: 'text-input',
+      label: { value: 'Zip code' },
+      autoComplete: 'postal-code',
+      properties: { colspan: 6 },
+    },
+  ] : [];
 
   return {
     id: 'test-drive',
@@ -47,90 +142,15 @@ function buildTestDriveFormDef(config = {}) {
         id: 'heading-test-drive',
         fieldType: 'heading',
         label: { value: formTitle },
-        appliedCssClassNames: 'col-12',
+        appliedCssClassNames: 'col-12 td-form-title',
       },
       {
         id: 'panel-main',
         name: 'main',
         fieldType: 'panel',
         items: [
-          {
-            id: 'firstName',
-            name: 'firstName',
-            fieldType: 'text-input',
-            label: { value: 'First name' },
-            autoComplete: 'given-name',
-            required: true,
-            properties: { colspan: 6 },
-          },
-          {
-            id: 'lastName',
-            name: 'lastName',
-            fieldType: 'text-input',
-            label: { value: 'Last name' },
-            autoComplete: 'family-name',
-            required: true,
-            properties: { colspan: 6 },
-          },
-          {
-            id: 'email',
-            name: 'email',
-            fieldType: 'text-input',
-            label: { value: 'Email address' },
-            autoComplete: 'email',
-            required: true,
-            properties: { colspan: 6 },
-          },
-          {
-            id: 'phone',
-            name: 'phone',
-            fieldType: 'text-input',
-            label: { value: 'Phone number' },
-            autoComplete: 'tel',
-            required: true,
-            properties: { colspan: 6 },
-          },
-          {
-            id: 'carModel',
-            name: 'carModel',
-            fieldType: 'drop-down',
-            label: { value: 'Select a model' },
-            placeholder: 'Select a model...',
-            enum: carModelEnum,
-            enumNames: carModelEnumNames,
-            required: true,
-            type: 'string',
-            properties: { colspan: 12 },
-          },
-          {
-            id: 'dealership',
-            name: 'dealership',
-            fieldType: 'text-input',
-            label: { value: 'Preferred dealership / location' },
-            autoComplete: 'address-level2',
-            properties: { colspan: 12 },
-          },
-          {
-            id: 'preferredDate',
-            name: 'preferredDate',
-            fieldType: 'text-input',
-            label: { value: 'Preferred date (YYYY-MM-DD)' },
-            placeholder: 'YYYY-MM-DD',
-            required: true,
-            properties: { colspan: 6 },
-          },
-          {
-            id: 'preferredTime',
-            name: 'preferredTime',
-            fieldType: 'drop-down',
-            label: { value: 'Preferred time' },
-            placeholder: 'Select a time...',
-            enum: timeEnum,
-            enumNames: timeEnumNames,
-            required: true,
-            type: 'string',
-            properties: { colspan: 6 },
-          },
+          ...personalFields,
+          ...addressFields,
           {
             id: 'submit-btn',
             name: 'submitButton',
@@ -145,14 +165,131 @@ function buildTestDriveFormDef(config = {}) {
   };
 }
 
-function showSuccessMessage(form, message) {
-  const existing = form.querySelectorAll('.form-message');
-  existing.forEach((el) => el.remove());
+// ── TimeSlotPicker ────────────────────────────────────────────────────────────
 
+function buildTimeSlotPicker(config = {}) {
+  const rawSlots = config['time-slots'] || '';
+  const dailyOptions = rawSlots
+    ? rawSlots.split(',').map((s) => s.trim()).filter(Boolean)
+    : DEFAULT_TIME_SLOTS;
+  const daysShown = parseInt(config['days-shown'], 10) || DEFAULT_DAYS_SHOWN;
+  const multiple = isTruthy(config['multiple-slots']);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  let dateOffset = 0;
+  let selection = multiple ? [] : null;
+  const slotData = {};
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'td-slot-picker';
+
+  const labelEl = document.createElement('p');
+  labelEl.className = 'td-slot-picker__label';
+  labelEl.textContent = 'Choose available day and time';
+
+  const content = document.createElement('div');
+  content.className = 'td-slot-picker__content';
+
+  const prevBtn = document.createElement('button');
+  prevBtn.type = 'button';
+  prevBtn.className = 'td-slot-picker__nav';
+  prevBtn.setAttribute('aria-label', 'Previous days');
+  prevBtn.innerHTML = '&#8249;';
+
+  const columnsEl = document.createElement('div');
+  columnsEl.className = 'td-slot-picker__columns';
+
+  const nextBtn = document.createElement('button');
+  nextBtn.type = 'button';
+  nextBtn.className = 'td-slot-picker__nav';
+  nextBtn.setAttribute('aria-label', 'Next days');
+  nextBtn.innerHTML = '&#8250;';
+
+  content.append(prevBtn, columnsEl, nextBtn);
+  wrapper.append(labelEl, content);
+
+  function isSelected(val) {
+    return multiple ? selection.includes(val) : selection === val;
+  }
+
+  function getOrCreateDayData(date) {
+    const key = date.toDateString();
+    if (!slotData[key]) {
+      slotData[key] = {
+        key,
+        dayName: SHORT_DAY_NAMES[date.getDay()],
+        day: date.getDate(),
+        monthName: SHORT_MONTH_NAMES[date.getMonth()],
+        options: dailyOptions.map((opt) => ({
+          value: `${key} - ${opt}`,
+          label: opt,
+          disabled: Math.random() > 0.7,
+        })),
+      };
+    }
+    return slotData[key];
+  }
+
+  function selectSlot(val) {
+    if (multiple) {
+      selection = selection.includes(val)
+        ? selection.filter((v) => v !== val)
+        : [...selection, val];
+    } else {
+      selection = val;
+    }
+    render();
+  }
+
+  function render() {
+    columnsEl.innerHTML = '';
+    for (let i = 0; i < daysShown; i++) {
+      const date = addDays(today, dateOffset + i);
+      const col = getOrCreateDayData(date);
+
+      const colEl = document.createElement('div');
+      colEl.className = 'td-slot-picker__column';
+
+      const header = document.createElement('div');
+      header.className = 'td-slot-picker__col-header';
+      header.innerHTML = `<strong>${col.dayName}</strong><em>${col.day} ${col.monthName}</em>`;
+      colEl.append(header);
+
+      col.options.forEach((opt) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = opt.label;
+        btn.className = 'td-slot-picker__option'
+          + (opt.disabled ? ' is-disabled' : '')
+          + (isSelected(opt.value) ? ' is-selected' : '');
+        if (!opt.disabled) btn.addEventListener('click', () => selectSlot(opt.value));
+        colEl.append(btn);
+      });
+
+      columnsEl.append(colEl);
+    }
+    prevBtn.disabled = dateOffset <= 0;
+  }
+
+  prevBtn.addEventListener('click', () => { dateOffset = Math.max(0, dateOffset - daysShown); render(); });
+  nextBtn.addEventListener('click', () => { dateOffset += daysShown; render(); });
+
+  render();
+
+  wrapper.getSelection = () => (Array.isArray(selection) ? selection.join('; ') : selection || '');
+
+  return wrapper;
+}
+
+// ── Submit handler ────────────────────────────────────────────────────────────
+
+function showSuccessMessage(form, message) {
+  form.querySelectorAll('.form-message').forEach((el) => el.remove());
   const msgEl = document.createElement('div');
   msgEl.className = 'form-message success';
   msgEl.textContent = message;
-
   const submitBtn = form.querySelector('button[type="submit"]');
   if (submitBtn) {
     submitBtn.parentNode.insertBefore(msgEl, submitBtn);
@@ -162,98 +299,51 @@ function showSuccessMessage(form, message) {
   }
 }
 
-function attachTestDriveSubmitHandler(block, config) {
+function attachSubmitHandler(block, config, variantDefaults, slotPicker) {
   const form = block.querySelector('form');
   if (!form) return;
 
-  const successMessage = config['success-message'] || DEFAULT_SUCCESS_MESSAGE;
+  const successMessage = config['success-message'] || variantDefaults.successMessage;
   const redirectUrl = config['redirect-url'] || config.redirecturl || '';
-  const authoredEventType = config.buttoneventtype ?? config['button-event-type'] ?? '';
 
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const formData = {};
-    form.querySelectorAll('input, select, textarea').forEach((field) => {
-      const name = field.name || field.id;
-      if (!name) return;
-      formData[name] = field.type === 'checkbox' ? (field.checked ? field.value || 'true' : '') : field.value;
-    });
-
-    const dateValue = String(formData.preferredDate || '').trim();
-    if (dateValue && !/^\d{4}-\d{2}-\d{2}$/.test(dateValue)) {
-      const dateField = form.querySelector('[name="preferredDate"]');
-      dateField?.classList.add('error');
+    const selectedSlot = slotPicker.getSelection();
+    const existingErr = block.querySelector('.td-slot-error');
+    if (!selectedSlot) {
+      if (!existingErr) {
+        const err = document.createElement('p');
+        err.className = 'td-slot-error';
+        err.textContent = 'Please select an available day and time.';
+        slotPicker.after(err);
+      }
       return;
     }
-    form.querySelector('[name="preferredDate"]')?.classList.remove('error');
+    block.querySelector('.td-slot-error')?.remove();
 
     syncFormDataLayer(form, DEFAULT_FORM_FIELD_MAP);
 
     const submitBtn = form.querySelector("button[type='submit']");
-    const eventType = submitBtn?.dataset?.buttonEventType?.trim() || authoredEventType;
+    const eventType = submitBtn?.dataset?.buttonEventType?.trim();
     if (eventType) dispatchCustomEvent(eventType);
 
     showSuccessMessage(form, successMessage);
-
     if (redirectUrl) setTimeout(() => { window.location.href = redirectUrl; }, 2000);
   });
 }
+
+// ── decorate ──────────────────────────────────────────────────────────────────
 
 export default async function decorate(block) {
   const config = readBlockConfig(block) || {};
   [...block.children].forEach((row) => { row.style.display = 'none'; });
 
-  // Build layout: image panel (left) + form panel (right)
-  const wrapper = document.createElement('div');
-  wrapper.className = 'test-drive-wrapper';
+  const variant = normalizeVariant(config.variant);
+  const variantDefaults = VARIANTS[variant] || VARIANTS['test-drive'];
 
-  // Image panel
-  const imagePanel = document.createElement('div');
-  imagePanel.className = 'test-drive-image-panel';
-
-  const imageSrc = config.image || config['image-url'] || '';
-  const imageAlt = config['image-alt'] || 'Test drive vehicle';
-  if (imageSrc) {
-    const img = document.createElement('img');
-    img.src = imageSrc;
-    img.alt = imageAlt;
-    img.className = 'test-drive-vehicle-image';
-    img.loading = 'eager';
-    imagePanel.append(img);
-  }
-
-  const eyebrow = config.eyebrow || '';
-  const headline = config.headline || '';
-  const subtext = config.subtext || '';
-  if (eyebrow || headline || subtext) {
-    const textEl = document.createElement('div');
-    textEl.className = 'test-drive-image-text';
-    if (eyebrow) {
-      const eyebrowEl = document.createElement('p');
-      eyebrowEl.className = 'test-drive-eyebrow';
-      eyebrowEl.textContent = eyebrow;
-      textEl.append(eyebrowEl);
-    }
-    if (headline) {
-      const h2 = document.createElement('h2');
-      h2.textContent = headline;
-      textEl.append(h2);
-    }
-    if (subtext) {
-      const p = document.createElement('p');
-      p.className = 'test-drive-subtext';
-      p.textContent = subtext;
-      textEl.append(p);
-    }
-    imagePanel.append(textEl);
-  }
-
-  // Form panel
-  const formPanel = document.createElement('div');
-  formPanel.className = 'test-drive-form-panel';
-
-  const formDef = buildTestDriveFormDef(config);
+  // Build the adaptive form
+  const formDef = buildFormDef(variantDefaults, config);
   const formContainer = document.createElement('div');
   formContainer.className = 'form';
 
@@ -262,17 +352,24 @@ export default async function decorate(block) {
   code.textContent = JSON.stringify(formDef);
   pre.append(code);
   formContainer.append(pre);
-  formPanel.append(formContainer);
 
-  wrapper.append(imagePanel, formPanel);
-  block.replaceChildren(wrapper);
+  block.replaceChildren(formContainer);
 
   const formModule = await import('../form/form.js');
   await formModule.default(formContainer);
 
+  // Inject time slot picker before the submit button
+  const slotPicker = buildTimeSlotPicker(config);
+  const submitWrapper = block.querySelector('.submit-wrapper');
+  if (submitWrapper) {
+    submitWrapper.before(slotPicker);
+  } else {
+    block.append(slotPicker);
+  }
+
   setTimeout(() => {
     applyButtonConfigToSubmitButton(block, config);
-    attachTestDriveSubmitHandler(block, config);
+    attachSubmitHandler(block, config, variantDefaults, slotPicker);
     const form = block.querySelector('form');
     if (form) {
       syncFormDataLayer(form, DEFAULT_FORM_FIELD_MAP);

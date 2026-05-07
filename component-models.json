@@ -1441,70 +1441,58 @@
     "id": "test-drive",
     "fields": [
       {
+        "component": "select",
+        "name": "variant",
+        "label": "Variant",
+        "value": "test-drive",
+        "valueType": "string",
+        "options": [
+          { "name": "Test Drive (Schedule test drive)", "value": "test-drive" },
+          { "name": "Schedule Appointment", "value": "schedule-appointment" }
+        ]
+      },
+      {
         "component": "text",
         "name": "form-title",
-        "label": "Form Title",
-        "value": "Book a Test Drive",
+        "label": "Form Title (overrides variant default)",
+        "value": "",
         "valueType": "string"
       },
       {
         "component": "text",
         "name": "submit-label",
-        "label": "Submit Button Label",
-        "value": "Book Test Drive",
-        "valueType": "string"
-      },
-      {
-        "component": "reference",
-        "name": "image",
-        "label": "Vehicle Image",
-        "valueType": "string",
-        "description": "Image of the vehicle displayed alongside the form"
-      },
-      {
-        "component": "text",
-        "name": "image-alt",
-        "label": "Vehicle Image Alt Text",
-        "value": "Test drive vehicle",
+        "label": "Submit Button Label (overrides variant default)",
+        "value": "",
         "valueType": "string"
       },
       {
         "component": "text",
-        "name": "eyebrow",
-        "label": "Eyebrow Text",
-        "value": "",
+        "name": "time-slots",
+        "label": "Time Slots (comma-separated)",
+        "value": "9 AM, 10 AM, 11 AM",
         "valueType": "string",
-        "description": "Small uppercase label shown above the headline"
+        "description": "Comma-separated list of time slots shown each day"
       },
       {
         "component": "text",
-        "name": "headline",
-        "label": "Headline",
-        "value": "",
+        "name": "days-shown",
+        "label": "Days Shown",
+        "value": "3",
         "valueType": "string",
-        "description": "Large heading shown next to the vehicle image"
+        "description": "Number of day columns to display at once (1-7)"
       },
       {
-        "component": "text",
-        "name": "subtext",
-        "label": "Subtext",
-        "value": "",
-        "valueType": "string",
-        "description": "Supporting text shown below the headline"
-      },
-      {
-        "component": "text",
-        "name": "car-models",
-        "label": "Car Models (comma-separated)",
-        "value": "Carvelo Sedan, Carvelo SUV, Carvelo Luxury, Carvelo Electric",
-        "valueType": "string",
-        "description": "Comma-separated list of car models for the dropdown"
+        "component": "boolean",
+        "name": "multiple-slots",
+        "label": "Allow Multiple Slot Selection",
+        "value": "false",
+        "valueType": "boolean"
       },
       {
         "component": "text",
         "name": "success-message",
-        "label": "Success Message",
-        "value": "Thank you! Your test drive has been booked. We will contact you shortly to confirm your appointment.",
+        "label": "Success Message (overrides variant default)",
+        "value": "",
         "valueType": "string"
       },
       {
@@ -1543,14 +1531,6 @@
         "value": "",
         "valueType": "string",
         "description": "Comma-separated key,value pairs for data layer"
-      },
-      {
-        "component": "text",
-        "name": "custom-class",
-        "label": "Custom Class",
-        "value": "",
-        "valueType": "string",
-        "description": "Space-separated CSS class names to add to the block"
       }
     ]
   },
