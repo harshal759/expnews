@@ -134,6 +134,123 @@
       }
     ]
   },
+    {
+    "id": "test-drive",
+    "fields": [
+      {
+        "component": "text",
+        "name": "form-title",
+        "label": "Form Title",
+        "value": "Book a Test Drive",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "submit-label",
+        "label": "Submit Button Label",
+        "value": "Book Test Drive",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "name": "image",
+        "label": "Vehicle Image",
+        "valueType": "string",
+        "description": "Image of the vehicle displayed alongside the form"
+      },
+      {
+        "component": "text",
+        "name": "image-alt",
+        "label": "Vehicle Image Alt Text",
+        "value": "Test drive vehicle",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "eyebrow",
+        "label": "Eyebrow Text",
+        "value": "",
+        "valueType": "string",
+        "description": "Small uppercase label shown above the headline"
+      },
+      {
+        "component": "text",
+        "name": "headline",
+        "label": "Headline",
+        "value": "",
+        "valueType": "string",
+        "description": "Large heading shown next to the vehicle image"
+      },
+      {
+        "component": "text",
+        "name": "subtext",
+        "label": "Subtext",
+        "value": "",
+        "valueType": "string",
+        "description": "Supporting text shown below the headline"
+      },
+      {
+        "component": "text",
+        "name": "car-models",
+        "label": "Car Models (comma-separated)",
+        "value": "Carvelo Sedan, Carvelo SUV, Carvelo Luxury, Carvelo Electric",
+        "valueType": "string",
+        "description": "Comma-separated list of car models for the dropdown"
+      },
+      {
+        "component": "text",
+        "name": "success-message",
+        "label": "Success Message",
+        "value": "Thank you! Your test drive has been booked. We will contact you shortly to confirm your appointment.",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "redirect-url",
+        "label": "Redirect URL (after submit)",
+        "value": "",
+        "valueType": "string",
+        "description": "Optional page to redirect to 2 seconds after successful submission"
+      },
+      {
+        "component": "text",
+        "name": "buttoneventtype",
+        "label": "Button Event Type",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttonwebhookurl",
+        "label": "Button Webhook URL",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttonformid",
+        "label": "Button Form ID",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttondata",
+        "label": "Button Data",
+        "value": "",
+        "valueType": "string",
+        "description": "Comma-separated key,value pairs for data layer"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom Class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated CSS class names to add to the block"
+      }
+    ]
+  },
   {
     "id": "product-detail",
     "fields": [

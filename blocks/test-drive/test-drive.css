@@ -1,0 +1,241 @@
+/* Test Drive block – two-column layout (image left, form right) */
+main .test-drive {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 24px;
+  font-family: var(--body-font-family, system-ui, sans-serif);
+  box-sizing: border-box;
+}
+
+/* Layout ------------------------------------------------------------------ */
+main .test-drive .test-drive-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+/* Image panel ------------------------------------------------------------- */
+main .test-drive .test-drive-image-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+main .test-drive .test-drive-vehicle-image {
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+main .test-drive .test-drive-image-text {
+  max-width: 480px;
+}
+
+main .test-drive .test-drive-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--main-accent-color, #f82216);
+  margin: 0 0 8px;
+}
+
+main .test-drive .test-drive-image-text h2 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 12px;
+  color: var(--text-color, #000);
+}
+
+main .test-drive .test-drive-subtext {
+  font-size: 1rem;
+  color: var(--text-color, #444);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Form panel -------------------------------------------------------------- */
+main .test-drive .test-drive-form-panel {
+  background: #f8f8f8;
+  border-radius: 12px;
+  padding: 40px 36px;
+}
+
+main .test-drive .test-drive-form {
+  --form-columns: 12;
+  --form-button-background-color: var(--main-accent-color, #f82216);
+  --form-button-background-hover-color: var(--main-accent-color, #f82216);
+  --form-input-border-color: #d0d0d0;
+  --form-label-color: #222;
+  --form-label-font-weight: 500;
+  --form-label-font-size: 14px;
+  --form-field-vert-gap: 14px;
+  --form-field-horz-gap: 20px;
+}
+
+main .test-drive form {
+  display: block;
+}
+
+main .test-drive .panel-wrapper {
+  display: block !important;
+  padding: 0 !important;
+  border: none !important;
+  margin: 0 !important;
+}
+
+main .test-drive .heading-wrapper label {
+  display: none !important;
+}
+
+main .test-drive .heading-wrapper {
+  margin: 0 0 24px !important;
+  padding: 0 !important;
+}
+
+main .test-drive h2#heading-test-drive {
+  font-size: 1.375rem;
+  font-weight: 700;
+  margin: 0;
+  color: #1a1a1a;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+main .test-drive .field-wrapper {
+  margin: 0 0 14px;
+}
+
+main .test-drive .field-wrapper label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #333;
+}
+
+main .test-drive .field-wrapper input,
+main .test-drive .field-wrapper select {
+  width: 100%;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 0.9375rem;
+  background: #fff;
+  color: #1a1a1a;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+main .test-drive .field-wrapper input:focus,
+main .test-drive .field-wrapper select:focus {
+  outline: none;
+  border-color: var(--main-accent-color, #f82216);
+}
+
+main .test-drive .field-wrapper input.error {
+  border-color: #d32f2f;
+}
+
+main .test-drive .submit-wrapper {
+  margin-top: 8px;
+}
+
+main .test-drive form button[type='submit'] {
+  width: 100%;
+  padding: 14px 24px;
+  background: var(--main-accent-color, #f82216);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+main .test-drive form button[type='submit']:hover:not(:disabled) {
+  background: #c41a10;
+}
+
+main .test-drive form button[type='submit']:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Success / error messages ------------------------------------------------ */
+main .test-drive .form-message {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+
+main .test-drive .form-message.success {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #a5d6a7;
+}
+
+main .test-drive .form-message.error {
+  background: #ffebee;
+  color: #c62828;
+  border: 1px solid #ef9a9a;
+}
+
+/* Carvelo theme overrides ------------------------------------------------- */
+body.carvelo-theme main .test-drive .test-drive-form-panel {
+  background: #f5f5f5;
+}
+
+body.carvelo-theme main .test-drive h2#heading-test-drive {
+  color: #000;
+}
+
+body.carvelo-theme main .test-drive form button[type='submit'] {
+  border-radius: 10px;
+}
+
+/* Responsive -------------------------------------------------------------- */
+@media (width < 900px) {
+  main .test-drive .test-drive-wrapper {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  main .test-drive .test-drive-image-panel {
+    align-items: center;
+    text-align: center;
+  }
+
+  main .test-drive .test-drive-vehicle-image {
+    max-width: 380px;
+    margin: 0 auto;
+  }
+
+  main .test-drive .test-drive-image-text {
+    text-align: center;
+    max-width: 100%;
+  }
+
+  main .test-drive .test-drive-form-panel {
+    padding: 28px 20px;
+  }
+}
+
+@media (width < 600px) {
+  main .test-drive {
+    padding: 40px 16px;
+  }
+
+  main .test-drive .test-drive-vehicle-image {
+    max-width: 280px;
+  }
+}

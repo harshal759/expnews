@@ -12,6 +12,7 @@
 @import url('./industry-specific/luma-theme/luma-theme.css');
 @import url('./industry-specific/citi-signal-theme/citi-signal-theme.css');
 @import url('./industry-specific/frescopa-theme/frescopa-theme.css');
+@import url('./industry-specific/carvelo-theme/carvelo-theme.css');
 
 /*
  :root {
@@ -64,6 +65,7 @@
   --heading-font-size-xl: 44px;
   --heading-font-size-l: 34px;
   --heading-font-size-m: 27px;
+  
   --heading-font-size-s: 24px;
   --heading-font-size-xs: 22px;
 
