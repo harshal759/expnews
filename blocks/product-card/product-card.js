@@ -245,9 +245,6 @@ function createCard(product, buttonConfig) {
 
   const body = document.createElement('div');
   body.className = 'product-card-body';
-  const category = document.createElement('p');
-  category.className = 'product-card-category';
-  category.textContent = product.category || '';
 
   const name = document.createElement('h3');
   name.textContent = product.name || 'Product';
@@ -256,7 +253,7 @@ function createCard(product, buttonConfig) {
   description.className = 'product-card-description';
   if (product.description) description.innerHTML = product.description;
 
-  body.append(category, name, description);
+  body.append(name, description);
 
   const li = document.createElement('li');
   li.append(photo, body);
