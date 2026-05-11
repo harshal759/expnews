@@ -32,20 +32,22 @@ function normalizeContentFragmentPath(path, isAuthor) {
 // Image resolution: damFeatureImageURL takes priority over externalFeatureImageURL.
 // On author env: _authorUrl → _publishUrl → _dynamicUrl
 // On publish env: _publishUrl → _authorUrl → _dynamicUrl
-function normalizeImageUrl(damObj, externalUrl) {
+function normalizeImageUrl(damObj, externalUrl, isAuthor) {
   if (damObj) {
-    return damObj._publishUrl || damObj._authorUrl || damObj._dynamicUrl;
+    return isAuthor
+      ? damObj._authorUrl || damObj._publishUrl || damObj._dynamicUrl
+      : damObj._publishUrl || damObj._authorUrl || damObj._dynamicUrl;
   }
   return externalUrl || '';
 }
 
-function normalizeItem(raw) {
+function normalizeItem(raw, isAuthor) {
   return {
     id: raw.id || raw.sku || '',
     name: raw.name || '',
     price: raw.price != null ? raw.price : null,
-    featureImageUrl: normalizeImageUrl(raw.damFeatureImageURL, raw.externalFeatureImageURL),
-    selectionImageUrl: normalizeImageUrl(raw.damImageUrlForSelection, raw.externalImageUrlForSelection),
+    featureImageUrl: normalizeImageUrl(raw.damFeatureImageURL, raw.externalFeatureImageURL, isAuthor),
+    selectionImageUrl: normalizeImageUrl(raw.damImageUrlForSelection, raw.externalImageUrlForSelection, isAuthor),
   };
 }
 
@@ -66,7 +68,7 @@ async function fetchProductFeatures(cfPath) {
     if (payload?.errors?.length) return [];
     const items = payload?.data?.productFeaturesModelList?.items;
     if (!Array.isArray(items) || !items.length) return [];
-    return items.map(normalizeItem).filter(Boolean);
+    return items.map((raw) => normalizeItem(raw, isAuthor)).filter(Boolean);
   } catch (e) {
     console.warn('Build Your Own GraphQL fetch failed:', e);
     return [];
