@@ -150,7 +150,8 @@
   max-height: none;
 }
 
-.cards.product-card-layout-compact-stacked-card .product-card-body h3 {
+.cards.product-card-layout-compact-stacked-card .product-card-body h3,
+.cards.product-card-block .product-card-image--hidden ~ .product-card-body h3 {
     font-size: 24px !important;
 }
 
