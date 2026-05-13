@@ -844,3 +844,32 @@ body.carvelo-theme main .product-detail .pd-btn {
   min-width: 180px;
   padding: 0.875rem 2.5rem;
 }
+
+body.carvelo-theme .cards > ul > li.teaser-card .cards-card-body {
+    bottom: 0;
+        text-align: center;
+}
+body.carvelo-theme .cards > ul > li.teaser-card .cards-card-body h2 {
+    font-size: 21px !important;
+    font-weight: bold;
+        padding: 0;
+}
+body.carvelo-theme .cards > ul > li.cards-card--custom-text-color .cards-card-body strong{
+   background-color: #1FAA6F;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: bold;
+}
+.section.latest-models.cards-container {
+    max-width: 1500px;
+    margin: auto;
+}
+body.carvelo-theme .cards > ul > li.teaser-card{
+  border-radius: 15px;
+}
+body.carvelo-theme .cards > ul > li {
+    border-radius: 15px !important;
+}
