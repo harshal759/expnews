@@ -17,6 +17,12 @@ const STORAGE_TIMESTAMP_KEY = 'project_dataLayer_timestamp';
 const STORAGE_TTL = 30 * 24 * 60 * 60 * 1000;
 const ECID_SESSION_KEY = 'com.adobe.reactor.dataElements.ECID';
 
+function normalizePageTitle(title) {
+  if (!title) return title;
+  const pipeIndex = title.indexOf('|');
+  return pipeIndex !== -1 ? title.slice(pipeIndex + 1).trim() : title;
+}
+
 function isObject(item) {
   return item && typeof item === 'object' && !Array.isArray(item);
 }
@@ -240,8 +246,8 @@ export async function buildCustomDataLayer() {
     }
     applyEcidToDataLayer();
     if (!_dataLayer.page) _dataLayer.page = {};
-    _dataLayer.page.title = document.title || _dataLayer.page.title;
-    _dataLayer.page.name = (document.title || '').toLowerCase() || _dataLayer.page.name;
+    _dataLayer.page.title = normalizePageTitle(document.title) || _dataLayer.page.title;
+    _dataLayer.page.name = (normalizePageTitle(document.title) || '').toLowerCase() || _dataLayer.page.name;
     syncWindowDataLayer();
 
     try {
@@ -324,7 +330,7 @@ window.resetDataLayerToInitial = async function (options = {}) {
 
   if (updatePageContext) {
     if (!_dataLayer.page) _dataLayer.page = {};
-    _dataLayer.page.title = document.title || _dataLayer.page.title;
+    _dataLayer.page.title = normalizePageTitle(document.title) || _dataLayer.page.title;
     const pathName = (window.location && window.location.pathname) || '';
     _dataLayer.page.name = getPageNameFromPathname(pathName) || _dataLayer.page.name;
   }
