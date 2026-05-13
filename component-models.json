@@ -8555,6 +8555,14 @@
         }
       },
       {
+        "component": "aem-content",
+        "name": "redirect-url",
+        "label": "Redirect URL",
+        "value": "",
+        "valueType": "string",
+        "description": "Optional product details page to use for product card clicks. Leave empty to use the default product details page."
+      },
+      {
         "component": "aem-tag",
         "name": "cq:tags",
         "label": "Tags",

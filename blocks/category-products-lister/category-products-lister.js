@@ -1,5 +1,5 @@
 import { readBlockConfig, createLumaProductImagePicture } from "../../scripts/aem.js";
-import { isAuthorEnvironment, normalizeCategoryValue } from "../../scripts/scripts.js";
+import { isAuthorEnvironment, normalizeAemPath, normalizeCategoryValue } from "../../scripts/scripts.js";
 import { dispatchCustomEvent } from "../../scripts/custom-events.js";
 import { getEnvironmentValue, getHostname } from "../../scripts/utils.js";
 
@@ -25,7 +25,46 @@ async function getCategoryProductsPublishEnvironment() {
   return categoryProductsPublishEnvironmentPromise;
 }
 
-function buildCard(item, isAuthor, enableAddToCart = false, addToCartEventType = '') {
+function coerceConfigScalar(v) {
+  if (v == null) return '';
+  if (Array.isArray(v)) return coerceConfigScalar(v[0]);
+  return String(v).trim();
+}
+
+function getDefaultProductDetailPath(isAuthor) {
+  const currentPath = window.location.pathname;
+  const basePath = currentPath.substring(0, currentPath.lastIndexOf("/"));
+  return isAuthor ? `${basePath}/product.html` : `${basePath}/product`;
+}
+
+function normalizeRedirectUrl(url) {
+  const redirectUrl = coerceConfigScalar(url);
+  if (!redirectUrl) return "";
+  if (/^https?:\/\//i.test(redirectUrl)) {
+    try {
+      const parsedUrl = new URL(redirectUrl);
+      if (!parsedUrl.pathname.startsWith("/content/")) return redirectUrl;
+    } catch (e) {
+      return redirectUrl;
+    }
+  }
+  return normalizeAemPath(redirectUrl);
+}
+
+function appendProductId(url, productId) {
+  if (!url || !productId) return "#";
+  const [baseUrl, hash] = url.split("#");
+  const separator = baseUrl.includes("?") ? "&" : "?";
+  return `${baseUrl}${separator}productId=${encodeURIComponent(productId)}${hash ? `#${hash}` : ""}`;
+}
+
+function buildProductUrl(item, isAuthor, redirectUrl = "") {
+  const productId = item?.sku || item?.id || "";
+  if (!productId) return "#";
+  return appendProductId(redirectUrl || getDefaultProductDetailPath(isAuthor), productId);
+}
+
+function buildCard(item, isAuthor, redirectUrl = "", enableAddToCart = false, addToCartEventType = '') {
   const { id, sku, name, damImageURL = {}, category = [], price, description = {} } = item || {};
   const productId = sku || id || "";
 
@@ -38,12 +77,7 @@ function buildCard(item, isAuthor, enableAddToCart = false, addToCartEventType =
   if (productId) {
     card.style.cursor = "pointer";
     card.addEventListener("click", () => {
-      const currentPath = window.location.pathname;
-      const basePath = currentPath.substring(0, currentPath.lastIndexOf("/"));
-      const productPath = isAuthor
-        ? `${basePath}/product.html`
-        : `${basePath}/product`;
-      window.location.href = `${productPath}?productId=${encodeURIComponent(productId)}`;
+      window.location.href = buildProductUrl(item, isAuthor, redirectUrl);
     });
   }
 
@@ -151,12 +185,6 @@ function filterByCategories(items, tags) {
   );
 }
 
-function coerceConfigScalar(v) {
-  if (v == null) return '';
-  if (Array.isArray(v)) return coerceConfigScalar(v[0]);
-  return String(v).trim();
-}
-
 function readCardsPerRow(cfg, block) {
   const raw = coerceConfigScalar(cfg?.["cards-per-row"]);
   const n = parseInt(raw, 10);
@@ -183,7 +211,7 @@ function renderHeader(container, selectedTags) {
   container.append(wrap);
 }
 
-function renderCarousel(block, items, cfg, isAuthor) {
+function renderCarousel(block, items, cfg, isAuthor, redirectUrl = "") {
   const heading = coerceConfigScalar(cfg?.["heading"] || cfg?.["block-title"]);
   const learnMoreLabel = coerceConfigScalar(cfg?.["learn-more-label"]) || "Learn more";
 
@@ -244,17 +272,7 @@ function renderCarousel(block, items, cfg, isAuthor) {
   learnMoreBtn.className = "cpl-carousel-learn-more button";
   learnMoreBtn.textContent = learnMoreLabel;
 
-  const getProductPath = (item) => {
-    const productId = item?.sku || item?.id || "";
-    if (!productId) return "#";
-    const currentPath = window.location.pathname;
-    const basePath = currentPath.substring(0, currentPath.lastIndexOf("/"));
-    return isAuthor
-      ? `${basePath}/product.html?productId=${encodeURIComponent(productId)}`
-      : `${basePath}/product?productId=${encodeURIComponent(productId)}`;
-  };
-
-  learnMoreBtn.href = getProductPath(items[0]);
+  learnMoreBtn.href = buildProductUrl(items[0], isAuthor, redirectUrl);
 
   meta.append(nameEl, learnMoreBtn);
   carousel.append(meta);
@@ -269,7 +287,7 @@ function renderCarousel(block, items, cfg, isAuthor) {
     current = (index + items.length) % items.length;
     slides[current].classList.add("active");
     nameEl.textContent = items[current]?.name || "";
-    learnMoreBtn.href = getProductPath(items[current]);
+    learnMoreBtn.href = buildProductUrl(items[current], isAuthor, redirectUrl);
   }
 
   prevBtn.addEventListener("click", () => goTo(current - 1));
@@ -279,16 +297,21 @@ function renderCarousel(block, items, cfg, isAuthor) {
 export default async function decorate(block) {
   // Check if we're in author environment
   const isAuthor = isAuthorEnvironment();
-
-  // Extract folder path from Universal Editor authored markup
-  let folderHref =
-    block.querySelector("a[href]")?.href ||
-    block.querySelector("a[href]")?.textContent?.trim() ||
-    "";
-
   const cfg = readBlockConfig(block) || {};
-  if (!folderHref) {
-    folderHref = cfg?.folder || cfg?.reference || cfg?.path || "";
+
+  const rawRedirectUrl = cfg?.["redirect-url"] || cfg?.redirecturl || cfg?.redirectUrl;
+  const redirectUrl = normalizeRedirectUrl(rawRedirectUrl);
+
+  // Prefer the authored folder field; fall back to legacy link-only markup.
+  let folderHref = cfg?.folder
+    || cfg?.reference
+    || cfg?.path
+    || "";
+
+  if (!folderHref && !rawRedirectUrl) {
+    folderHref = block.querySelector("a[href]")?.href
+      || block.querySelector("a[href]")?.textContent?.trim()
+      || "";
   }
 
   const styleVariant = coerceConfigScalar(cfg?.style);
@@ -342,7 +365,7 @@ export default async function decorate(block) {
       block.append(empty);
       return;
     }
-    renderCarousel(block, items, cfg, isAuthor);
+    renderCarousel(block, items, cfg, isAuthor, redirectUrl);
     return;
   }
 
@@ -361,6 +384,8 @@ export default async function decorate(block) {
     return;
   }
 
-  const cards = items.map((item) => buildCard(item, isAuthor, enableAddToCart, addToCartEventType));
+  const cards = items.map((item) => (
+    buildCard(item, isAuthor, redirectUrl, enableAddToCart, addToCartEventType)
+  ));
   grid.append(...cards);
 }
