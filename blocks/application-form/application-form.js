@@ -8,7 +8,7 @@
 
 import { readBlockConfig, loadCSS } from '../../scripts/aem.js';
 import { dispatchCustomEvent } from '../../scripts/custom-events.js';
-import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP, attachLiveFormSync } from '../../scripts/form-data-layer.js';
+import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP, attachLiveFormSync, submitToWebhook } from '../../scripts/form-data-layer.js';
 import { normalizeAemPath } from '../../scripts/scripts.js';
 
 const APPLICATION_FORM_WIZARD_NAME = 'Credit Card Application';
@@ -251,7 +251,7 @@ function attachApplicationFormSubmitHandler(block, redirectUrl) {
   if (!form) return;
 
   const submitSection = form.querySelector('#step-details')?.closest('fieldset') || form.querySelector('.panel-wrapper:last-of-type');
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     formSubmitting = true;
     const data = collectApplicationFormData(form);
@@ -261,6 +261,11 @@ function attachApplicationFormSubmitHandler(block, redirectUrl) {
     const submitButton = form.querySelector("button[type='submit']");
     const authoredEventType = submitButton?.dataset?.buttonEventType?.trim() || 'form-submit';
     dispatchCustomEvent(authoredEventType);
+
+    const webhookUrl = submitButton?.dataset?.buttonWebhookUrl?.trim();
+    const formId = submitButton?.dataset?.buttonFormId?.trim();
+    if (webhookUrl) await submitToWebhook(form, webhookUrl, formId);
+
     const url = normalizeAemPath(redirectUrl);
     if (url) setTimeout(() => { window.location.href = url; }, 2000);
   });

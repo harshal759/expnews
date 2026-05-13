@@ -8,7 +8,7 @@
 
 import { readBlockConfig, loadCSS } from '../../scripts/aem.js';
 import { dispatchCustomEvent } from '../../scripts/custom-events.js';
-import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP, attachLiveFormSync } from '../../scripts/form-data-layer.js';
+import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP, attachLiveFormSync, submitToWebhook } from '../../scripts/form-data-layer.js';
 import { normalizeAemPath } from '../../scripts/scripts.js';
 
 const LOAN_PREAPPROVAL_FORM_WIZARD_TITLE = 'Home Loan Application Form';
@@ -278,7 +278,7 @@ function attachLoanPreapprovalFormSubmitHandler(block, redirectUrl) {
   if (!form) return;
 
   const submitSection = form.querySelector('#step-documents')?.closest('fieldset') || form.querySelector('.panel-wrapper:last-of-type');
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     loanFormSubmitting = true;
     const data = collectLoanPreapprovalFormData(form);
@@ -286,9 +286,14 @@ function attachLoanPreapprovalFormSubmitHandler(block, redirectUrl) {
     console.log('Loan preapproval form data:', data);
 
     clearProductObject();
-    const submitButton = form.querySelector('button[type=\"submit\"]');
+    const submitButton = form.querySelector('button[type="submit"]');
     const authoredEventType = submitButton?.dataset?.buttonEventType?.trim() || 'home-loan-application-submit';
     dispatchCustomEvent(authoredEventType);
+
+    const webhookUrl = submitButton?.dataset?.buttonWebhookUrl?.trim();
+    const formId = submitButton?.dataset?.buttonFormId?.trim();
+    if (webhookUrl) await submitToWebhook(form, webhookUrl, formId);
+
     const url = normalizeAemPath(redirectUrl);
     if (url) setTimeout(() => { window.location.href = url; }, 2000);
   });

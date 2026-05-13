@@ -8,7 +8,7 @@
 
 import { readBlockConfig, loadCSS } from '../../scripts/aem.js';
 import { dispatchCustomEvent } from '../../scripts/custom-events.js';
-import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP, attachLiveFormSync } from '../../scripts/form-data-layer.js';
+import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP, attachLiveFormSync, submitToWebhook } from '../../scripts/form-data-layer.js';
 import { normalizeAemPath } from '../../scripts/scripts.js';
 
 function getNestedProperty(obj, path) {
@@ -213,7 +213,7 @@ function attachSubmitHandler(block, redirectUrl) {
   const form = block.querySelector('form');
   if (!form) return;
   const submitSection = form.querySelector('#step-details')?.closest('fieldset') || form.querySelector('.panel-wrapper:last-of-type');
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const data = collectFormData(form);
     // eslint-disable-next-line no-console
@@ -222,6 +222,11 @@ function attachSubmitHandler(block, redirectUrl) {
     const submitBtn = form.querySelector("button[type='submit']");
     const authoredEventType = submitBtn?.dataset?.buttonEventType?.trim() || 'new-account-form-submit';
     dispatchCustomEvent(authoredEventType);
+
+    const webhookUrl = submitBtn?.dataset?.buttonWebhookUrl?.trim();
+    const formId = submitBtn?.dataset?.buttonFormId?.trim();
+    if (webhookUrl) await submitToWebhook(form, webhookUrl, formId);
+
     const url = normalizeAemPath(redirectUrl);
     if (url) setTimeout(() => { window.location.href = url; }, 2000);
   });

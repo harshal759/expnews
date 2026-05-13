@@ -7,7 +7,7 @@
 
 import { readBlockConfig } from "../../scripts/aem.js";
 import { dispatchCustomEvent } from "../../scripts/custom-events.js";
-import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP, attachLiveFormSync } from "../../scripts/form-data-layer.js";
+import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP, attachLiveFormSync, submitToWebhook } from "../../scripts/form-data-layer.js";
 
 const DEFAULT_FORM_TITLE = 'JOIN WKND FLY CLUB';
 const DEFAULT_SUCCESS_TOAST_MESSAGE = 'Thank you for joining WKND Fly Club. Check your email, new exciting travels are ahead of you!';
@@ -264,7 +264,7 @@ function attachFormSubmitHandler(block, formActionId = '', successToastMessage =
 
   form.addEventListener(
     'submit',
-    (event) => {
+    async (event) => {
       event.preventDefault();
 
       const email = form.querySelector('input[name="email"]')?.value?.trim() || '';
@@ -309,6 +309,10 @@ function attachFormSubmitHandler(block, formActionId = '', successToastMessage =
       if (authoredEventType) {
         dispatchCustomEvent(authoredEventType);
       }
+
+      const webhookUrl = submitBtn?.dataset?.buttonWebhookUrl?.trim();
+      const formId = submitBtn?.dataset?.buttonFormId?.trim();
+      if (webhookUrl) await submitToWebhook(form, webhookUrl, formId);
     }
   );
 }
