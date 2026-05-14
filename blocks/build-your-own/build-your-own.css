@@ -15,8 +15,8 @@
 }
 
 .byo-category-section {
-  padding-bottom: 2.5rem;
-  margin-bottom: 2.5rem;
+  padding-bottom: 3rem;
+  margin-bottom: 3rem;
   border-bottom: 1px solid #e0e0e0;
 }
 
@@ -26,22 +26,30 @@
   padding-bottom: 0;
 }
 
+/* Centered title above the two-column layout */
+.byo-section-title {
+  margin: 0 0 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-align: center;
+  text-transform: capitalize;
+  letter-spacing: 0;
+}
+
 .byo-wrapper {
   display: grid;
   grid-template-columns: 1fr 340px;
-  gap: 2.5rem;
-  align-items: start;
+  gap: 3rem;
+  align-items: center;
 }
 
-/* Left preview */
+/* Left preview — clean, no background box */
 .byo-preview-pane {
-  background: #f5f5f5;
-  border-radius: 12px;
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 360px;
+  min-height: 320px;
 }
 
 .byo-preview-img {
@@ -57,16 +65,7 @@
 .byo-options-pane {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-}
-
-.byo-section-title {
-  margin: 0;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #888;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  gap: 1.5rem;
 }
 
 /* Swatch grid */
@@ -79,8 +78,8 @@
 .byo-swatch {
   position: relative;
   padding: 0;
-  border: 2px solid transparent;
-  border-radius: 8px;
+  border: 3px solid transparent;
+  border-radius: 12px;
   background: #f0f0f0;
   cursor: pointer;
   overflow: hidden;
@@ -95,12 +94,12 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 9px;
   display: block;
 }
 
 .byo-swatch:hover {
-  border-color: #bbb;
+  border-color: #ccc;
   transform: scale(1.04);
 }
 
@@ -108,17 +107,15 @@
   border-color: var(--main-accent-color, #333);
 }
 
+/* Centered checkmark overlay on selected swatch */
 .byo-swatch.is-selected::after {
   content: '';
   position: absolute;
-  bottom: 4px;
-  right: 4px;
-  width: 16px;
-  height: 16px;
-  background: var(--main-accent-color, #333);
-  border-radius: 50%;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='%23fff' d='M2 6l3 3 5-5' stroke='%23fff' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-  background-size: 10px;
+  inset: 0;
+  border-radius: 9px;
+  background-color: rgba(0 0 0 / 0.15);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='white' fill-opacity='0.9'/%3E%3Cpath d='M7 12l3.5 3.5L17 9' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+  background-size: 36px;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -139,7 +136,7 @@
 .byo-summary-price {
   margin: 0;
   font-size: 1rem;
-  color: var(--main-accent-color, #333);
+  color: #888;
   font-weight: 500;
 }
 

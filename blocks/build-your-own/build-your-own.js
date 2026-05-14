@@ -134,6 +134,11 @@ function buildCategorySection(categoryName, categoryItems) {
   const section = document.createElement('div');
   section.className = 'byo-category-section';
 
+  const heading = document.createElement('h2');
+  heading.className = 'byo-section-title';
+  heading.textContent = categoryName;
+  section.appendChild(heading);
+
   const wrapper = document.createElement('div');
   wrapper.className = 'byo-wrapper';
 
@@ -147,11 +152,6 @@ function buildCategorySection(categoryName, categoryItems) {
 
   const optionsPane = document.createElement('div');
   optionsPane.className = 'byo-options-pane';
-
-  const heading = document.createElement('h2');
-  heading.className = 'byo-section-title';
-  heading.textContent = categoryName;
-  optionsPane.appendChild(heading);
 
   const swatchGrid = document.createElement('div');
   swatchGrid.className = 'byo-swatch-grid';
