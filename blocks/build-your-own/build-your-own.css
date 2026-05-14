@@ -7,6 +7,25 @@
   box-sizing: border-box;
 }
 
+.byo-main-title {
+  margin: 0 0 2rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.byo-category-section {
+  padding-bottom: 2.5rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.byo-category-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
 .byo-wrapper {
   display: grid;
   grid-template-columns: 1fr 340px;

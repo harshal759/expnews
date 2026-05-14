@@ -120,6 +120,76 @@ function selectItem(index, items, previewImg, summaryLabel, summaryPrice, swatch
   pushToDataLayer(buildSelectedItemDataLayer(item));
 }
 
+function groupByCategory(items) {
+  const map = new Map();
+  items.forEach((item) => {
+    const cat = item.category || 'uncategorized';
+    if (!map.has(cat)) map.set(cat, []);
+    map.get(cat).push(item);
+  });
+  return map;
+}
+
+function buildCategorySection(categoryName, categoryItems) {
+  const section = document.createElement('div');
+  section.className = 'byo-category-section';
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'byo-wrapper';
+
+  const previewPane = document.createElement('div');
+  previewPane.className = 'byo-preview-pane';
+  const previewImg = document.createElement('img');
+  previewImg.src = categoryItems[0].featureImageUrl;
+  previewImg.alt = categoryItems[0].name;
+  previewImg.className = 'byo-preview-img';
+  previewPane.appendChild(previewImg);
+
+  const optionsPane = document.createElement('div');
+  optionsPane.className = 'byo-options-pane';
+
+  const heading = document.createElement('h2');
+  heading.className = 'byo-section-title';
+  heading.textContent = categoryName;
+  optionsPane.appendChild(heading);
+
+  const swatchGrid = document.createElement('div');
+  swatchGrid.className = 'byo-swatch-grid';
+
+  const summaryEl = document.createElement('div');
+  summaryEl.className = 'byo-summary';
+  const summaryLabel = document.createElement('p');
+  summaryLabel.className = 'byo-summary-label';
+  summaryLabel.textContent = categoryItems[0].name;
+  const summaryPrice = document.createElement('p');
+  summaryPrice.className = 'byo-summary-price';
+  summaryPrice.textContent = categoryItems[0].price != null ? formatPrice(categoryItems[0].price) : '';
+  summaryEl.appendChild(summaryLabel);
+  summaryEl.appendChild(summaryPrice);
+
+  const swatches = categoryItems.map((item, index) => {
+    const btn = document.createElement('button');
+    btn.className = `byo-swatch${index === 0 ? ' is-selected' : ''}`;
+    btn.setAttribute('aria-pressed', index === 0 ? 'true' : 'false');
+    btn.setAttribute('title', item.name);
+    const img = document.createElement('img');
+    img.src = item.selectionImageUrl;
+    img.alt = item.name;
+    btn.appendChild(img);
+    btn.addEventListener('click', () => selectItem(index, categoryItems, previewImg, summaryLabel, summaryPrice, swatches));
+    swatchGrid.appendChild(btn);
+    return btn;
+  });
+
+  optionsPane.appendChild(swatchGrid);
+  optionsPane.appendChild(summaryEl);
+  wrapper.appendChild(previewPane);
+  wrapper.appendChild(optionsPane);
+  section.appendChild(wrapper);
+
+  return section;
+}
+
 export default async function decorate(block) {
   const config = readBlockConfig(block);
   const blockTitle = config?.['block-title'] || config?.blocktitle || '';
@@ -133,59 +203,15 @@ export default async function decorate(block) {
 
   if (!items.length) return;
 
-  const wrapper = document.createElement('div');
-  wrapper.className = 'byo-wrapper';
+  if (blockTitle) {
+    const mainHeading = document.createElement('h1');
+    mainHeading.className = 'byo-main-title';
+    mainHeading.textContent = blockTitle;
+    block.appendChild(mainHeading);
+  }
 
-  // Left: preview pane
-  const previewPane = document.createElement('div');
-  previewPane.className = 'byo-preview-pane';
-  const previewImg = document.createElement('img');
-  previewImg.src = items[0].featureImageUrl;
-  previewImg.alt = items[0].name;
-  previewImg.className = 'byo-preview-img';
-  previewPane.appendChild(previewImg);
-
-  // Right: options pane
-  const optionsPane = document.createElement('div');
-  optionsPane.className = 'byo-options-pane';
-
-  const heading = document.createElement('h2');
-  heading.className = 'byo-section-title';
-  heading.textContent = blockTitle;
-  optionsPane.appendChild(heading);
-
-  const swatchGrid = document.createElement('div');
-  swatchGrid.className = 'byo-swatch-grid';
-
-  const summaryEl = document.createElement('div');
-  summaryEl.className = 'byo-summary';
-  const summaryLabel = document.createElement('p');
-  summaryLabel.className = 'byo-summary-label';
-  summaryLabel.textContent = items[0].name;
-  const summaryPrice = document.createElement('p');
-  summaryPrice.className = 'byo-summary-price';
-  summaryPrice.textContent = items[0].price != null ? formatPrice(items[0].price) : '';
-  summaryEl.appendChild(summaryLabel);
-  summaryEl.appendChild(summaryPrice);
-
-  const swatches = items.map((item, index) => {
-    const btn = document.createElement('button');
-    btn.className = `byo-swatch${index === 0 ? ' is-selected' : ''}`;
-    btn.setAttribute('aria-pressed', index === 0 ? 'true' : 'false');
-    btn.setAttribute('title', item.name);
-    const img = document.createElement('img');
-    img.src = item.selectionImageUrl;
-    img.alt = item.name;
-    btn.appendChild(img);
-    btn.addEventListener('click', () => selectItem(index, items, previewImg, summaryLabel, summaryPrice, swatches));
-    swatchGrid.appendChild(btn);
-    return btn;
+  const categoryMap = groupByCategory(items);
+  categoryMap.forEach((categoryItems, categoryName) => {
+    block.appendChild(buildCategorySection(categoryName, categoryItems));
   });
-
-  optionsPane.appendChild(swatchGrid);
-  optionsPane.appendChild(summaryEl);
-
-  wrapper.appendChild(previewPane);
-  wrapper.appendChild(optionsPane);
-  block.appendChild(wrapper);
 }
