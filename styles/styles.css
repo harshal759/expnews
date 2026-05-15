@@ -656,6 +656,21 @@ footer .footer[data-block-status="loaded"] {
   min-height: 0;
 }
 
+/* Prevent flight-search FOUC: reserve space until loaded. */
+.flight-search.block[data-block-status="initialized"],
+.flight-search.block[data-block-status="loading"] {
+  min-height: 130px;
+}
+
+.flight-search.block[data-block-status="initialized"] > *,
+.flight-search.block[data-block-status="loading"] > * {
+  visibility: hidden;
+}
+
+.flight-search.block[data-block-status="loaded"] {
+  min-height: 0;
+}
+
 /* Prevent sign-in FOUC: show a skeleton until loaded. */
 .sign-in.block[data-block-status="initialized"],
 .sign-in.block[data-block-status="loading"] {
