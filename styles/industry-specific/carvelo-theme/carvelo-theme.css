@@ -490,7 +490,7 @@ body.carvelo-theme main .user-registration form label {
 
 body.carvelo-theme main .create-account .field-wrapper.switch input[type="checkbox"]:checked,
 body.carvelo-theme main .user-registration .field-wrapper.switch input[type="checkbox"]:checked {
-  background: #f82216;
+  background: #000;
 }
 
 body.carvelo-theme main .create-account .field-wrapper.switch input[type="checkbox"]::before,

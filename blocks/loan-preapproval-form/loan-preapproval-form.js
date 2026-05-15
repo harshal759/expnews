@@ -119,7 +119,11 @@ function applyButtonConfigToSubmitButton(block, config) {
   if (buttonData && String(buttonData).trim()) submitButton.dataset.buttonData = String(buttonData).trim();
 }
 
-function buildLoanPreapprovalFormDef() {
+function buildLoanPreapprovalFormDef(config = {}) {
+  const defaultPhoneConsentText = "By entering your phone number you're authorizing SecurFinancial to use this number to call, text and send you messages by any method. We won't charge you for any messages but your service provider may.";
+  const phoneConsentText = (config.phoneconsenttext ?? config['phone-consent-text'] ?? '').toString().trim() || defaultPhoneConsentText;
+  const defaultAuthorizeText = "I authorize SecurFinancial to verify my credit. I've read and agreed to Mortgage's Terms of Use, Privacy Policy and Consent to Receive Electronic Documents.";
+  const authorizeText = (config.authorizetext ?? config['authorize-text'] ?? '').toString().trim() || defaultAuthorizeText;
   const stateOptions = ['', 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'];
   const stateNames = ['Select...', ...stateOptions.slice(1)];
   return {
@@ -152,7 +156,7 @@ function buildLoanPreapprovalFormDef() {
               {
                 id: 'phone-consent',
                 fieldType: 'plain-text',
-                value: "By entering your phone number you're authorizing SecurFinancial to use this number to call, text and send you messages by any method. We won't charge you for any messages but your service provider may.",
+                value: phoneConsentText,
                 appliedCssClassNames: 'col-12 loan-preapproval-form-consent',
               },
             ],
@@ -188,7 +192,7 @@ function buildLoanPreapprovalFormDef() {
                 id: 'authorize',
                 name: 'authorize',
                 fieldType: 'checkbox',
-                label: { value: "I authorize SecurFinancial to verify my credit. I've read and agreed to Mortgage's Terms of Use, Privacy Policy and Consent to Receive Electronic Documents." },
+                label: { value: authorizeText },
                 enum: ['on'],
                 properties: { colspan: 12 },
               },
@@ -380,7 +384,7 @@ export default async function decorate(block) {
 
   block.classList.add('loan-preapproval-form-block');
 
-  const formDef = buildLoanPreapprovalFormDef();
+  const formDef = buildLoanPreapprovalFormDef(config);
   const formContainer = document.createElement('div');
   formContainer.className = 'loan-preapproval-form-wrapper form';
 
