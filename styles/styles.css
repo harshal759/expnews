@@ -1321,7 +1321,7 @@ main > .section.section-has-bg[data-sec-full-width="true"] > div {
   display: flex;
 }
 main .section.section-horizontal-widths > .default-content-wrapper {
-  display: flex;
+  display: block;
   flex-direction: row;
   flex-wrap: nowrap;
   width: 100%;

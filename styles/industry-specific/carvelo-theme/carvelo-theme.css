@@ -895,3 +895,9 @@ body.carvelo-theme main .category-products-lister h3.cpl-card-title {
     font-weight: bold;
     font-size: 21px !important;
 }
+body.carvelo-theme .hero.block.overlay * {
+    color: #fff !important;
+}
+body.carvelo-theme .button-container.cta-button a.button:hover{
+  border-color:#fff !important
+}
