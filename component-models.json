@@ -1664,6 +1664,14 @@
         "description": "Comma-separated key,value pairs"
       },
       {
+          "component": "text",
+          "name": "buttontext",
+          "label": "Button Text",
+          "value": "JOIN US",
+          "valueType": "string",
+          "description": "Text shown on the form submit button"
+        },
+      {
         "component": "text",
         "name": "custom-class",
         "label": "Custom class",

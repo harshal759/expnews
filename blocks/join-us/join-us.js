@@ -62,6 +62,7 @@ export default async function decorate(block) {
   const callBeforeDeliveryDefault = isTruthy(config.callbeforedelivery);
   const formActionId = (config.buttonformid ?? config['button-form-id'] ?? '').toString().trim();
   const formTitle = (config.formtitle ?? config['form-title'] ?? '').toString().trim() || DEFAULT_FORM_TITLE;
+  const buttonText = String(config.buttontext ?? config.buttonText ?? config['button-text'] ?? '').trim() || 'JOIN US';
   const successToastMessage = (config.successmessage ?? config['success-message'] ?? '').toString().trim() || DEFAULT_SUCCESS_TOAST_MESSAGE;
 
   // Build Adaptive Form definition for Join Us (same pattern as sign-in)
@@ -207,7 +208,7 @@ export default async function decorate(block) {
             name: 'joinUsButton',
             fieldType: 'button',
             buttonType: 'submit',
-            label: { value: 'JOIN US' },
+            label: { value: buttonText },
             appliedCssClassNames: 'submit-wrapper col-12',
           },
         ],

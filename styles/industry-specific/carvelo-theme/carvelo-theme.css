@@ -33,7 +33,13 @@ body.carvelo-theme main  > .section.bg-dark > div {
     max-width: 1200px !important;
     margin: auto !important;
 }
-
+body.carvelo-theme main .hero.image-left > div:nth-child(2), 
+body.carvelo-theme main.hero.image-right > div:nth-child(2) {
+    padding: 0;
+}
+.center-action-btn  .action-button-wrapper {
+    text-align: center;
+}
 /* ─── Typography ─────────────────────────────────────────────────────── */
 body.carvelo-theme h1,
 body.carvelo-theme h2,
