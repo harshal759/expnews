@@ -261,7 +261,13 @@ body.carvelo-theme header nav .nav-tools .cart-icon .cart-badge {
   padding: 2px 4px;
   line-height: 1;
 }
-
+body.carvelo-theme main .product-detail .pd-container {
+    grid-template-columns: 46% 54%;
+}
+body.carvelo-theme main .product-detail {
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+}
 /* ─── Top Ribbon ─────────────────────────────────────────────────────── */
 body.carvelo-theme .TopRibbon {
   background: #000000;
