@@ -108,7 +108,7 @@
 /* Tick overlay on selected swatch */
 .byo-swatch.is-selected:before {
   content: '';
-  background-image: url('/blocks/build-your-own/images/tick.svg');
+  background-image: url('/icons/tick.svg');
   background-size: 40%;
   background-position: center;
   background-repeat: no-repeat;

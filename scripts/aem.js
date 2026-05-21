@@ -705,6 +705,9 @@ function decorateSections(main) {
       applySectionTextColor(section, meta['sec-color'] ?? meta['section-text-color']);
       applySectionCustomClass(section, meta['sec-custom-styles'] ?? meta['custom-class']);
       applySectionTextAlignment(section, meta['sec-alignment'] ?? meta['text-alignment']);
+    } else {
+      // Apply custom class for sections with data-sec-custom-styles set directly (no section-metadata block)
+      applySectionCustomClass(section, section.dataset.secCustomStyles);
     }
     applySectionItemWidths(section);
   });
@@ -723,13 +726,13 @@ function decorateSections(main) {
 function applySectionCustomClass(section, value) {
   const prev = (section.dataset.secCustomStyles ?? '').trim();
   if (prev) {
-    prev.split(/\s+/).filter(Boolean).forEach((c) => section.classList.remove(c));
+    prev.split(/[\s,]+/).filter(Boolean).forEach((c) => section.classList.remove(c));
   }
   delete section.dataset.secCustomStyles;
   const next = (value ?? '').toString().trim();
   if (next) {
     section.dataset.secCustomStyles = next;
-    next.split(/\s+/).filter(Boolean).forEach((c) => section.classList.add(c));
+    next.split(/[\s,]+/).filter(Boolean).forEach((c) => section.classList.add(c));
   }
 }
 
