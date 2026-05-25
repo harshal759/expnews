@@ -11,8 +11,8 @@ import { dispatchCustomEvent } from '../../scripts/custom-events.js';
 import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP, attachLiveFormSync, submitToWebhook } from '../../scripts/form-data-layer.js';
 import { normalizeAemPath } from '../../scripts/scripts.js';
 
-const LOAN_PREAPPROVAL_FORM_WIZARD_TITLE = 'Home Loan Application Form';
-const LOAN_PREAPPROVAL_FORM_WIZARD_NAME = 'home-loan-application';
+const LOAN_APPLICATION_FORM_WIZARD_TITLE = 'Home Loan Application Form';
+const LOAN_APPLICATION_FORM_WIZARD_NAME = 'home-loan-application';
 function getNestedProperty(obj, path) {
   if (!obj || !path) return undefined;
   return path.split('.').reduce((current, key) => current?.[key], obj);
@@ -53,7 +53,7 @@ function prePopulateFormFromDataLayer(form) {
   return hasPrefill;
 }
 
-function setupLoanPreapprovalFormPrefill(form) {
+function setupLoanApplicationFormPrefill(form) {
   if (!form) return;
   const syncPrefillToDataLayer = () => {
     const didPrefill = prePopulateFormFromDataLayer(form);
@@ -83,8 +83,8 @@ function buildWizardPayload(currentStepIndex, totalSteps) {
     : 0;
   const steps = Array.from({ length: totalSteps }, (_, idx) => buildStepMeta(idx));
   return {
-    name: LOAN_PREAPPROVAL_FORM_WIZARD_NAME,
-    title: LOAN_PREAPPROVAL_FORM_WIZARD_TITLE,
+    name: LOAN_APPLICATION_FORM_WIZARD_NAME,
+    title: LOAN_APPLICATION_FORM_WIZARD_TITLE,
     steps,
     currentStep: safeIndex + 1,
   };
@@ -95,7 +95,7 @@ function getTotalWizardSteps(wizard) {
   return wizard.querySelectorAll('.panel-wrapper').length;
 }
 
-function updateLoanPreapprovalWizardDataLayer(wizard, stepIndex) {
+function updateLoanApplicationWizardDataLayer(wizard, stepIndex) {
   if (!window.updateDataLayer) return;
   const totalSteps = getTotalWizardSteps(wizard);
   const payload = buildWizardPayload(stepIndex, totalSteps);
@@ -119,22 +119,22 @@ function applyButtonConfigToSubmitButton(block, config) {
   if (buttonData && String(buttonData).trim()) submitButton.dataset.buttonData = String(buttonData).trim();
 }
 
-function buildLoanPreapprovalFormDef(config = {}) {
+function buildLoanApplicationFormDef(config = {}) {
   const formTitle = (config['form-title'] || '').toString().trim();
   const phoneConsentText = "By entering your phone number you're authorizing SecurFinancial to use this number to call, text and send you messages by any method. We won't charge you for any messages but your service provider may.";
   const authorizeText = "I authorize SecurFinancial to verify my credit. I've read and agreed to Mortgage's Terms of Use, Privacy Policy and Consent to Receive Electronic Documents.";
   const stateOptions = ['', 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'];
   const stateNames = ['Select...', ...stateOptions.slice(1)];
   return {
-    id: 'loan-preapproval-form',
+    id: 'loan-application-form',
     fieldType: 'form',
-    appliedCssClassNames: 'loan-preapproval-form-form loan-preapproval-form-wizard',
+    appliedCssClassNames: 'loan-application-form-form loan-application-form-wizard',
     items: [
       {
-        id: 'heading-loan-preapproval',
+        id: 'heading-loan-application',
         fieldType: 'heading',
         label: { value: formTitle },
-        appliedCssClassNames: 'col-12 loan-preapproval-form-heading',
+        appliedCssClassNames: 'col-12 loan-application-form-heading',
       },
       {
         id: 'panel-wizard',
@@ -156,7 +156,7 @@ function buildLoanPreapprovalFormDef(config = {}) {
                 id: 'phone-consent',
                 fieldType: 'plain-text',
                 value: phoneConsentText,
-                appliedCssClassNames: 'col-12 loan-preapproval-form-consent',
+                appliedCssClassNames: 'col-12 loan-application-form-consent',
               },
             ],
           },
@@ -207,7 +207,7 @@ function buildLoanPreapprovalFormDef(config = {}) {
                 id: 'upload-instruction',
                 fieldType: 'plain-text',
                 value: 'Upload documents',
-                appliedCssClassNames: 'col-12 loan-preapproval-form-upload-label',
+                appliedCssClassNames: 'col-12 loan-application-form-upload-label',
               },
               {
                 id: 'proofOfIncome',
@@ -242,7 +242,7 @@ function buildLoanPreapprovalFormDef(config = {}) {
                 fieldType: 'button',
                 buttonType: 'submit',
                 label: { value: 'Submit' },
-                appliedCssClassNames: 'loan-preapproval-form-submit-btn',
+                appliedCssClassNames: 'loan-application-form-submit-btn',
               },
             ],
           },
@@ -252,7 +252,7 @@ function buildLoanPreapprovalFormDef(config = {}) {
   };
 }
 
-function collectLoanPreapprovalFormData(form) {
+function collectLoanApplicationFormData(form) {
   const data = {};
   form.querySelectorAll('input, select, textarea').forEach((el) => {
     const name = el.getAttribute('name');
@@ -276,7 +276,7 @@ function clearProductObject() {
   }
 }
 
-function attachLoanPreapprovalFormSubmitHandler(block, redirectUrl) {
+function attachLoanApplicationFormSubmitHandler(block, redirectUrl) {
   const form = block.querySelector('form');
   if (!form) return;
 
@@ -284,7 +284,7 @@ function attachLoanPreapprovalFormSubmitHandler(block, redirectUrl) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     loanFormSubmitting = true;
-    const data = collectLoanPreapprovalFormData(form);
+    const data = collectLoanApplicationFormData(form);
     // eslint-disable-next-line no-console
     console.log('Loan preapproval form data:', data);
 
@@ -302,7 +302,7 @@ function attachLoanPreapprovalFormSubmitHandler(block, redirectUrl) {
   });
 }
 
-function setupLoanPreapprovalStepIndicator(block, stepEvent, startedEvent) {
+function setupLoanApplicationStepIndicator(block, stepEvent, startedEvent) {
   const wizard = block.querySelector('form .wizard');
   if (!wizard) return;
   const totalSteps = wizard.querySelectorAll('.panel-wrapper').length;
@@ -310,7 +310,7 @@ function setupLoanPreapprovalStepIndicator(block, stepEvent, startedEvent) {
   if (!btnWrapper || totalSteps === 0) return;
 
   const stepLabel = document.createElement('span');
-  stepLabel.className = 'loan-preapproval-form-step-label';
+  stepLabel.className = 'loan-application-form-step-label';
   stepLabel.setAttribute('aria-live', 'polite');
   function updateStepLabel() {
     const current = wizard.querySelector('.current-wizard-step');
@@ -329,11 +329,11 @@ function setupLoanPreapprovalStepIndicator(block, stepEvent, startedEvent) {
 
   const form = block.querySelector('form');
   if (window.dataLayer && typeof window.updateDataLayer === 'function') {
-    attachLoanPreapprovalFormStepEvents(wizard, form, stepEvent, startedEvent);
+    attachLoanApplicationFormStepEvents(wizard, form, stepEvent, startedEvent);
   }
 }
 
-function getLoanPreapprovalWizardStepIndex(wizard) {
+function getLoanApplicationWizardStepIndex(wizard) {
   const current = wizard.querySelector('.current-wizard-step');
   if (current && typeof current.dataset.index !== 'undefined') {
     const index = Number.parseInt(current.dataset.index, 10);
@@ -347,12 +347,12 @@ function getLoanPreapprovalWizardStepIndex(wizard) {
   return 0;
 }
 
-function attachLoanPreapprovalFormStepEvents(wizard, form, stepEvent, startedEvent) {
+function attachLoanApplicationFormStepEvents(wizard, form, stepEvent, startedEvent) {
   if (!wizard) return;
   const handleNavigation = (event) => {
     const index = Number.isFinite(event?.detail?.currStep?.index)
       ? event.detail.currStep.index
-      : getLoanPreapprovalWizardStepIndex(wizard);
+      : getLoanApplicationWizardStepIndex(wizard);
     if (form) {
       syncFormDataLayer(form, DEFAULT_FORM_FIELD_MAP);
     }
@@ -360,7 +360,7 @@ function attachLoanPreapprovalFormStepEvents(wizard, form, stepEvent, startedEve
       ? event.detail.prevStep.index
       : index - 1;
     if (Number.isFinite(prevIndex) && index > prevIndex) {
-      updateLoanPreapprovalWizardDataLayer(wizard, index);
+      updateLoanApplicationWizardDataLayer(wizard, index);
       dispatchCustomEvent(stepEvent);
     }
   };
@@ -369,8 +369,8 @@ function attachLoanPreapprovalFormStepEvents(wizard, form, stepEvent, startedEve
     syncFormDataLayer(form, DEFAULT_FORM_FIELD_MAP);
     attachLiveFormSync(form, DEFAULT_FORM_FIELD_MAP);
   }
-  const initialIndex = getLoanPreapprovalWizardStepIndex(wizard);
-  updateLoanPreapprovalWizardDataLayer(wizard, initialIndex);
+  const initialIndex = getLoanApplicationWizardStepIndex(wizard);
+  updateLoanApplicationWizardDataLayer(wizard, initialIndex);
   dispatchCustomEvent(startedEvent);
 }
 
@@ -381,11 +381,11 @@ export default async function decorate(block) {
   const codeBasePath = window.hlx?.codeBasePath || '';
   await loadCSS(`${codeBasePath}/blocks/form/form.css`);
 
-  block.classList.add('loan-preapproval-form-block');
+  block.classList.add('loan-application-form-block');
 
-  const formDef = buildLoanPreapprovalFormDef(config);
+  const formDef = buildLoanApplicationFormDef(config);
   const formContainer = document.createElement('div');
-  formContainer.className = 'loan-preapproval-form-wrapper form';
+  formContainer.className = 'loan-application-form-wrapper form';
 
   const pre = document.createElement('pre');
   const code = document.createElement('code');
@@ -403,14 +403,14 @@ export default async function decorate(block) {
 
   setTimeout(() => {
     applyButtonConfigToSubmitButton(block, config, 'home-loan-application-submit');
-    attachLoanPreapprovalFormSubmitHandler(block, config.redirecturl);
+    attachLoanApplicationFormSubmitHandler(block, config.redirecturl);
     const form = block.querySelector('form');
     if (form) {
-      setupLoanPreapprovalFormPrefill(form);
+      setupLoanApplicationFormPrefill(form);
     }
-    setupLoanPreapprovalStepIndicator(block, stepEvent, startedEvent);
+    setupLoanApplicationStepIndicator(block, stepEvent, startedEvent);
   }, 100);
-  setupLoanPreapprovalAbandonEvents(abandonedEvent);
+  setupLoanApplicationAbandonEvents(abandonedEvent);
 }
 
 let loanAbandonEventsInitialized = false;
@@ -436,7 +436,7 @@ function handleLoanVisibilityChange() {
   }
 }
 
-function setupLoanPreapprovalAbandonEvents(abandonedEvent) {
+function setupLoanApplicationAbandonEvents(abandonedEvent) {
   if (loanAbandonEventsInitialized) return;
   loanAbandonEventsInitialized = true;
   loanAbandonedEventType = abandonedEvent;
