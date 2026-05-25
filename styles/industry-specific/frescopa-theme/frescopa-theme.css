@@ -376,12 +376,12 @@ body.frescopa-theme main .transfer-funds .submit-wrapper button,
 body.frescopa-theme main .join-us .submit-wrapper button,
 body.frescopa-theme main .insurance-block .insurance-form .submit-wrapper button,
 body.frescopa-theme main .add-external-block .add-external-form .submit-wrapper button,
-body.frescopa-theme main .application-form-block .application-form-wizard .wizard-button-next button,
-body.frescopa-theme main .application-form-block .application-form-wizard .submit-wrapper button,
+body.frescopa-theme main .credit-card-application-form-block .credit-card-application-form-wizard .wizard-button-next button,
+body.frescopa-theme main .credit-card-application-form-block .credit-card-application-form-wizard .submit-wrapper button,
 body.frescopa-theme main .new-account-block .new-account-wizard .wizard-button-next button,
 body.frescopa-theme main .new-account-block .new-account-wizard .submit-wrapper button,
-body.frescopa-theme main .loan-preapproval-form-block .loan-preapproval-form-wizard .wizard-button-next button,
-body.frescopa-theme main .loan-preapproval-form-block .loan-preapproval-form-wizard .submit-wrapper button,
+body.frescopa-theme main .loan-application-form-block .loan-application-form-wizard .wizard-button-next button,
+body.frescopa-theme main .loan-application-form-block .loan-application-form-wizard .submit-wrapper button,
 body.frescopa-theme main .loan-calculator button[type='submit'],
 body.frescopa-theme main .checkout .submit-wrapper button,
 body.frescopa-theme main .checkout-shipping .submit-wrapper button,
@@ -406,12 +406,12 @@ body.frescopa-theme main .transfer-funds .submit-wrapper button:hover,
 body.frescopa-theme main .join-us .submit-wrapper button:hover,
 body.frescopa-theme main .insurance-block .insurance-form .submit-wrapper button:hover,
 body.frescopa-theme main .add-external-block .add-external-form .submit-wrapper button:hover,
-body.frescopa-theme main .application-form-block .application-form-wizard .wizard-button-next button:hover,
-body.frescopa-theme main .application-form-block .application-form-wizard .submit-wrapper button:hover,
+body.frescopa-theme main .credit-card-application-form-block .credit-card-application-form-wizard .wizard-button-next button:hover,
+body.frescopa-theme main .credit-card-application-form-block .credit-card-application-form-wizard .submit-wrapper button:hover,
 body.frescopa-theme main .new-account-block .new-account-wizard .wizard-button-next button:hover,
 body.frescopa-theme main .new-account-block .new-account-wizard .submit-wrapper button:hover,
-body.frescopa-theme main .loan-preapproval-form-block .loan-preapproval-form-wizard .wizard-button-next button:hover,
-body.frescopa-theme main .loan-preapproval-form-block .loan-preapproval-form-wizard .submit-wrapper button:hover,
+body.frescopa-theme main .loan-application-form-block .loan-application-form-wizard .wizard-button-next button:hover,
+body.frescopa-theme main .loan-application-form-block .loan-application-form-wizard .submit-wrapper button:hover,
 body.frescopa-theme main .loan-calculator button[type='submit']:hover,
 body.frescopa-theme main .checkout .submit-wrapper button:hover,
 body.frescopa-theme main .checkout-shipping .submit-wrapper button:hover,
@@ -431,9 +431,9 @@ body.frescopa-theme main .join-us .delivery-section-item.field-wrapper.switch in
   background: #27647d !important;
 }
 
-body.frescopa-theme main .application-form-block .application-form-wizard .wizard-menu-active-item,
+body.frescopa-theme main .credit-card-application-form-block .credit-card-application-form-wizard .wizard-menu-active-item,
 body.frescopa-theme main .new-account-block .wizard-menu-active-item,
-body.frescopa-theme main .loan-preapproval-form-block .wizard-menu-active-item {
+body.frescopa-theme main .loan-application-form-block .wizard-menu-active-item {
   background: #27647d !important;
   border-color: #27647d !important;
 }
@@ -512,16 +512,16 @@ body.frescopa-theme main .checkout-shipping form p {
   color: #58181d;
 }
 
-/* Application Form Wizards */
-body.frescopa-theme main .application-form-block .form-container,
+/* Credit Card Application Form & Loan Application Form Wizards */
+body.frescopa-theme main .credit-card-application-form-block .form-container,
 body.frescopa-theme main .new-account-block .form-container,
-body.frescopa-theme main .loan-preapproval-form-block .form-container {
+body.frescopa-theme main .loan-application-form-block .form-container {
   background-color: transparent;
 }
 
-body.frescopa-theme main .application-form-block form label,
+body.frescopa-theme main .credit-card-application-form-block form label,
 body.frescopa-theme main .new-account-block form label,
-body.frescopa-theme main .loan-preapproval-form-block form label {
+body.frescopa-theme main .loan-application-form-block form label {
   color: #58181d;
   font-family: roboto, roboto-fallback, sans-serif;
 }

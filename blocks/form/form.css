@@ -98,12 +98,12 @@ main .transfer-funds .submit-wrapper button,
 main .join-us .submit-wrapper button,
 main .insurance-block .insurance-form .submit-wrapper button,
 main .add-external-block .add-external-form .submit-wrapper button,
-main .application-form-block .application-form-wizard .wizard-button-next button,
-main .application-form-block .application-form-wizard .submit-wrapper button,
+main .credit-card-application-form-block .credit-card-application-form-wizard .wizard-button-next button,
+main .credit-card-application-form-block .credit-card-application-form-wizard .submit-wrapper button,
 main .new-account-block .new-account-wizard .wizard-button-next button,
 main .new-account-block .new-account-wizard .submit-wrapper button,
-main .loan-preapproval-form-block .loan-preapproval-form-wizard .wizard-button-next button,
-main .loan-preapproval-form-block .loan-preapproval-form-wizard .submit-wrapper button,
+main .loan-application-form-block .loan-application-form-wizard .wizard-button-next button,
+main .loan-application-form-block .loan-application-form-wizard .submit-wrapper button,
 main .loan-calculator button[type='submit'] {
     background: var(--main-accent-color) !important;
     background-color: var(--main-accent-color) !important;
@@ -123,30 +123,30 @@ main .transfer-funds .submit-wrapper button:hover,
 main .join-us .submit-wrapper button:hover,
 main .insurance-block .insurance-form .submit-wrapper button:hover,
 main .add-external-block .add-external-form .submit-wrapper button:hover,
-main .application-form-block .application-form-wizard .wizard-button-next button:hover,
-main .application-form-block .application-form-wizard .submit-wrapper button:hover,
+main .credit-card-application-form-block .credit-card-application-form-wizard .wizard-button-next button:hover,
+main .credit-card-application-form-block .credit-card-application-form-wizard .submit-wrapper button:hover,
 main .new-account-block .new-account-wizard .wizard-button-next button:hover,
 main .new-account-block .new-account-wizard .submit-wrapper button:hover,
-main .loan-preapproval-form-block .loan-preapproval-form-wizard .wizard-button-next button:hover,
-main .loan-preapproval-form-block .loan-preapproval-form-wizard .submit-wrapper button:hover,
+main .loan-application-form-block .loan-application-form-wizard .wizard-button-next button:hover,
+main .loan-application-form-block .loan-application-form-wizard .submit-wrapper button:hover,
 main .loan-calculator button[type='submit']:hover {
     background: var(--main-accent-hover, var(--link-hover-color)) !important;
     background-color: var(--main-accent-hover, var(--link-hover-color)) !important;
     border-color: var(--main-accent-hover, var(--link-hover-color)) !important;
 }
 
-main .application-form-block .application-form-wizard .wizard-button-wrapper > .submit-wrapper,
+main .credit-card-application-form-block .credit-card-application-form-wizard .wizard-button-wrapper > .submit-wrapper,
 main .new-account-block .new-account-wizard .wizard-button-wrapper > .submit-wrapper,
-main .loan-preapproval-form-block .loan-preapproval-form-wizard .wizard-button-wrapper > .submit-wrapper {
+main .loan-application-form-block .loan-application-form-wizard .wizard-button-wrapper > .submit-wrapper {
     width: auto !important;
     max-width: none !important;
     min-width: auto !important;
     flex: 0 0 auto !important;
 }
 
-main .application-form-block .application-form-wizard .wizard-button-wrapper > .submit-wrapper button,
+main .credit-card-application-form-block .credit-card-application-form-wizard .wizard-button-wrapper > .submit-wrapper button,
 main .new-account-block .new-account-wizard .wizard-button-wrapper > .submit-wrapper button,
-main .loan-preapproval-form-block .loan-preapproval-form-wizard .wizard-button-wrapper > .submit-wrapper button {
+main .loan-application-form-block .loan-application-form-wizard .wizard-button-wrapper > .submit-wrapper button {
     width: auto !important;
     max-width: none !important;
     min-width: auto !important;
@@ -155,8 +155,8 @@ main .loan-preapproval-form-block .loan-preapproval-form-wizard .wizard-button-w
 }
 
 main .new-account-block .wizard-menu-active-item,
-main .application-form-block .wizard-menu-active-item,
-main .loan-preapproval-form-block .wizard-menu-active-item {
+main .credit-card-application-form-block .wizard-menu-active-item,
+main .loan-application-form-block .wizard-menu-active-item {
     background: var(--main-accent-color) !important;
     border-color: var(--main-accent-color) !important;
 }

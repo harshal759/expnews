@@ -801,21 +801,21 @@ footer .footer[data-block-status="loaded"] {
   overflow: visible;
 }
 
-/* Prevent application-form FOUC: show a skeleton until loaded. */
-.application-form.block[data-block-status="initialized"],
-.application-form.block[data-block-status="loading"] {
+/* Prevent credit-card-application-form FOUC: show a skeleton until loaded. */
+.credit-card-application-form.block[data-block-status="initialized"],
+.credit-card-application-form.block[data-block-status="loading"] {
   position: relative;
   min-height: 500px;
   overflow: hidden;
 }
 
-.application-form.block[data-block-status="initialized"] > *,
-.application-form.block[data-block-status="loading"] > * {
+.credit-card-application-form.block[data-block-status="initialized"] > *,
+.credit-card-application-form.block[data-block-status="loading"] > * {
   visibility: hidden;
 }
 
-.application-form.block[data-block-status="initialized"]::before,
-.application-form.block[data-block-status="loading"]::before {
+.credit-card-application-form.block[data-block-status="initialized"]::before,
+.credit-card-application-form.block[data-block-status="loading"]::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -826,26 +826,26 @@ footer .footer[data-block-status="loaded"] {
   z-index: 2;
 }
 
-.application-form.block[data-block-status="loaded"] {
+.credit-card-application-form.block[data-block-status="loaded"] {
   min-height: 0;
   overflow: visible;
 }
 
-/* Prevent loan-preapproval-form FOUC: show a skeleton until loaded. */
-.loan-preapproval-form.block[data-block-status="initialized"],
-.loan-preapproval-form.block[data-block-status="loading"] {
+/* Prevent loan-application-form FOUC: show a skeleton until loaded. */
+.loan-application-form.block[data-block-status="initialized"],
+.loan-application-form.block[data-block-status="loading"] {
   position: relative;
   min-height: 500px;
   overflow: hidden;
 }
 
-.loan-preapproval-form.block[data-block-status="initialized"] > *,
-.loan-preapproval-form.block[data-block-status="loading"] > * {
+.loan-application-form.block[data-block-status="initialized"] > *,
+.loan-application-form.block[data-block-status="loading"] > * {
   visibility: hidden;
 }
 
-.loan-preapproval-form.block[data-block-status="initialized"]::before,
-.loan-preapproval-form.block[data-block-status="loading"]::before {
+.loan-application-form.block[data-block-status="initialized"]::before,
+.loan-application-form.block[data-block-status="loading"]::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -856,7 +856,7 @@ footer .footer[data-block-status="loaded"] {
   z-index: 2;
 }
 
-.loan-preapproval-form.block[data-block-status="loaded"] {
+.loan-application-form.block[data-block-status="loaded"] {
   min-height: 0;
   overflow: visible;
 }
