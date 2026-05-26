@@ -17,11 +17,9 @@
 .byo-category-section {
   padding-bottom: 3rem;
   margin-bottom: 3rem;
-  border-bottom: 1px solid #e0e0e0;
 }
 
 .byo-category-section:last-child {
-  border-bottom: none;
   margin-bottom: 0;
   padding-bottom: 0;
 }

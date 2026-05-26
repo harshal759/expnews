@@ -136,7 +136,7 @@ function buildCategorySection(categoryName, categoryItems) {
   const section = document.createElement('div');
   section.className = 'byo-category-section';
 
-  const heading = document.createElement('h2');
+  const heading = document.createElement('h1');
   heading.className = 'byo-section-title';
   heading.textContent = categoryName;
   section.appendChild(heading);
