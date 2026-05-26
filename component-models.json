@@ -1552,10 +1552,9 @@
         "valueType": "string"
       },
       {
-        "component": "text",
+        "component": "aem-content",
         "name": "redirect-url",
         "label": "Redirect URL (after submit)",
-        "value": "",
         "valueType": "string",
         "description": "Optional page to redirect to 2 seconds after successful submission"
       },

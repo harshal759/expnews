@@ -1,4 +1,5 @@
 import { readBlockConfig } from '../../scripts/aem.js';
+import { normalizeAemPath } from '../../scripts/scripts.js';
 import { dispatchCustomEvent } from '../../scripts/custom-events.js';
 import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP, attachLiveFormSync } from '../../scripts/form-data-layer.js';
 
@@ -328,7 +329,7 @@ function attachSubmitHandler(block, config, variantDefaults, slotPicker) {
   if (!form) return;
 
   const successMessage = config['success-message'] || variantDefaults.successMessage;
-  const redirectUrl = config['redirect-url'] || config.redirecturl || '';
+  const redirectUrl = normalizeAemPath(config['redirect-url'] || config.redirecturl || '');
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
