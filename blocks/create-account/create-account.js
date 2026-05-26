@@ -45,6 +45,7 @@ function buildCreateAccountFormDef(config = {}) {
     ? isTruthy(config.showcommunicationpreferences)
     : true;
   const showAddress = config.showaddress !== undefined ? isTruthy(config.showaddress) : true;
+  const showDateOfBirth = config.showdateofbirth !== undefined ? isTruthy(config.showdateofbirth) : true;
   const shoeSizes = ["", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45"];
   const shirtSizes = ["", "s", "m", "l", "xl", "xxl"];
   const favoriteColors = ["", "black", "blue", "green", "orange", "pink", "purple", "red", "white", "yellow"];
@@ -139,6 +140,7 @@ function buildCreateAccountFormDef(config = {}) {
             label: { value: "Date of birth (YYYY-MM-DD)" },
             placeholder: "YYYY-MM-DD",
             properties: { colspan: 12 },
+            ...(showDateOfBirth ? {} : { appliedCssClassNames: "is-hidden" }),
           },
           {
             id: "joinLoyaltyProgram",

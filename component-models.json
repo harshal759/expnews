@@ -2238,6 +2238,14 @@
       },
       {
         "component": "boolean",
+        "name": "showdateofbirth",
+        "label": "Show Date of Birth Field",
+        "value": "true",
+        "valueType": "boolean",
+        "description": "Show or hide the date of birth field."
+      },
+      {
+        "component": "boolean",
         "name": "showloyaltyprogram",
         "label": "Show Loyalty Program",
         "value": "false",
