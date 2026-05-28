@@ -104,6 +104,40 @@ function pushToDataLayer(data) {
   }
 }
 
+// Convert "advance-driver-assistance-button" → "advancedDriverAssistance"
+function addonClassToKey(className) {
+  return className
+    .replace(/-button$/, '')
+    .replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+}
+
+function initAddonCards() {
+  const addonState = {};
+  const STANDARD_BTN_CLASSES = new Set(['cta-button', 'default-button', 'secondary-button']);
+
+  document.querySelectorAll('.cards > ul > li').forEach((card) => {
+    const addonClass = [...card.classList].find(
+      (cls) => cls.endsWith('-button') && !STANDARD_BTN_CLASSES.has(cls),
+    );
+    if (!addonClass) return;
+
+    const key = addonClassToKey(addonClass);
+    addonState[key] = false;
+
+    const btn = card.querySelector('.button-container a.button');
+    if (!btn) return;
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      addonState[key] = !addonState[key];
+      const added = addonState[key];
+      card.classList.toggle('is-added', added);
+      btn.textContent = added ? 'Remove from Configuration' : 'Add to Configuration';
+      pushToDataLayer({ configurator: { ...addonState } });
+    });
+  });
+}
+
 function formatPrice(value) {
   if (value == null) return '';
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 }).format(value);
@@ -216,4 +250,12 @@ export default async function decorate(block) {
   categoryMap.forEach((categoryItems, categoryName) => {
     block.appendChild(buildCategorySection(categoryName, categoryItems));
   });
+
+  // Wire up addon-card toggles after all blocks on the page are decorated.
+  // Using 'load' ensures cards blocks have finished their own decorate() calls.
+  if (document.readyState === 'complete') {
+    initAddonCards();
+  } else {
+    window.addEventListener('load', initAddonCards, { once: true });
+  }
 }
