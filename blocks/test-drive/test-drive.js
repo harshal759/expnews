@@ -303,6 +303,32 @@ function buildTimeSlotPicker(config = {}) {
   return wrapper;
 }
 
+// ── Button data sheet helpers ─────────────────────────────────────────────────
+
+function setNestedValue(obj, dotPath, value) {
+  const keys = dotPath.split('.');
+  let curr = obj;
+  for (let i = 0; i < keys.length - 1; i++) {
+    if (!curr[keys[i]] || typeof curr[keys[i]] !== 'object') curr[keys[i]] = {};
+    curr = curr[keys[i]];
+  }
+  curr[keys[keys.length - 1]] = value;
+}
+
+async function fetchButtonData(url) {
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) return null;
+    const json = await resp.json();
+    if (!Array.isArray(json.data)) return null;
+    const result = {};
+    json.data.forEach(({ key, value }) => { if (key) setNestedValue(result, key, value); });
+    return result;
+  } catch {
+    return null;
+  }
+}
+
 // ── Submit handler ────────────────────────────────────────────────────────────
 
 function showSuccessMessage(form, message) {
@@ -345,7 +371,7 @@ function attachSubmitHandler(block, config, variantDefaults, slotPicker) {
   const successMessage = config['success-message'] || variantDefaults.successMessage;
   const redirectUrl = normalizeAemPath(config['redirect-url'] || config.redirecturl || '');
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const selectedSlot = slotPicker.getSelection();
@@ -375,6 +401,13 @@ function attachSubmitHandler(block, config, variantDefaults, slotPicker) {
     }
 
     const submitBtn = form.querySelector("button[type='submit']");
+
+    const buttonDataUrl = submitBtn?.dataset?.buttonData?.trim();
+    if (buttonDataUrl && typeof window.updateDataLayer === 'function') {
+      const sheetData = await fetchButtonData(normalizeAemPath(buttonDataUrl));
+      if (sheetData) window.updateDataLayer(sheetData);
+    }
+
     const eventType = submitBtn?.dataset?.buttonEventType?.trim();
     if (eventType) dispatchCustomEvent(eventType);
 
