@@ -20,12 +20,14 @@ const VARIANTS = {
     submitLabel: 'Schedule arrival',
     successMessage: 'Thank you! Your test drive has been scheduled. We will confirm your appointment shortly.',
     showAddressSection: true,
+    dataLayerKey: 'testDrive',
   },
   'schedule-appointment': {
     formTitle: 'Schedule an appointment',
     submitLabel: 'Schedule appointment',
     successMessage: 'Thank you! Your appointment has been scheduled. We will confirm shortly.',
     showAddressSection: false,
+    dataLayerKey: 'appointment',
   },
 };
 
@@ -173,7 +175,7 @@ function buildFormDef(variantDefaults, config) {
 
 // ── TimeSlotPicker ────────────────────────────────────────────────────────────
 
-function buildTimeSlotPicker(config = {}) {
+function buildTimeSlotPicker(config = {}, dataLayerKey) {
   const rawSlots = config['time-slots'] || '';
   const dailyOptions = rawSlots
     ? rawSlots.split(',').map((s) => s.trim()).filter(Boolean)
@@ -243,7 +245,7 @@ function buildTimeSlotPicker(config = {}) {
     window.updateDataLayer({
       interactionDetails: {
         automotive: {
-          appointment: {
+          [dataLayerKey]: {
             dateTime: Array.isArray(val) ? val.join('; ') : val || '',
           },
         },
@@ -366,7 +368,7 @@ function attachSubmitHandler(block, config, variantDefaults, slotPicker) {
       window.updateDataLayer({
         interactionDetails: {
           automotive: {
-            appointment: {
+            [variantDefaults.dataLayerKey]: {
               dateTime: selectedSlot,
             },
           },
@@ -420,7 +422,7 @@ export default async function decorate(block) {
   await formModule.default(formContainer);
 
   // Inject time slot picker before the submit button
-  const slotPicker = buildTimeSlotPicker(config);
+  const slotPicker = buildTimeSlotPicker(config, variantDefaults.dataLayerKey);
   const submitWrapper = block.querySelector('.submit-wrapper');
   if (submitWrapper) {
     submitWrapper.before(slotPicker);
