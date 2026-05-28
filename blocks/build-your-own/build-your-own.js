@@ -104,39 +104,29 @@ function pushToDataLayer(data) {
   }
 }
 
-// Convert "advance-driver-assistance-button" → "advancedDriverAssistance"
-function addonClassToKey(className) {
-  return className
-    .replace(/-button$/, '')
-    .replace(/-([a-z])/g, (_, c) => c.toUpperCase());
-}
+const ADDON_CLASS_MAP = {
+  'advance-driver-assistance-button': 'advancedDriverAssistance',
+  'convenience-package-button': 'conveniencePackage',
+};
 
-function initAddonCards() {
-  const addonState = {};
-  const STANDARD_BTN_CLASSES = new Set(['cta-button', 'default-button', 'secondary-button']);
+const addonState = {
+  advancedDriverAssistance: false,
+  conveniencePackage: false,
+};
 
-  document.querySelectorAll('.cards > ul > li').forEach((card) => {
-    const addonClass = [...card.classList].find(
-      (cls) => cls.endsWith('-button') && !STANDARD_BTN_CLASSES.has(cls),
-    );
-    if (!addonClass) return;
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest(
+    '.advance-driver-assistance-button .button-container a.button, .convenience-package-button .button-container a.button',
+  );
+  if (!btn) return;
 
-    const key = addonClassToKey(addonClass);
-    addonState[key] = false;
-
-    const btn = card.querySelector('.button-container a.button');
-    if (!btn) return;
-
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      addonState[key] = !addonState[key];
-      const added = addonState[key];
-      card.classList.toggle('is-added', added);
-      btn.textContent = added ? 'Remove from Configuration' : 'Add to Configuration';
-      pushToDataLayer({ configurator: { ...addonState } });
-    });
-  });
-}
+  e.preventDefault();
+  const card = btn.closest('.cards > ul > li');
+  const addonClass = Object.keys(ADDON_CLASS_MAP).find((cls) => card.classList.contains(cls));
+  const key = ADDON_CLASS_MAP[addonClass];
+  addonState[key] = !addonState[key];
+  pushToDataLayer({ configurator: { ...addonState } });
+});
 
 function formatPrice(value) {
   if (value == null) return '';
@@ -251,11 +241,4 @@ export default async function decorate(block) {
     block.appendChild(buildCategorySection(categoryName, categoryItems));
   });
 
-  // Wire up addon-card toggles after all blocks on the page are decorated.
-  // Using 'load' ensures cards blocks have finished their own decorate() calls.
-  if (document.readyState === 'complete') {
-    initAddonCards();
-  } else {
-    window.addEventListener('load', initAddonCards, { once: true });
-  }
 }
