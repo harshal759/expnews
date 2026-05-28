@@ -1,1 +1,90 @@
-[{"id":"main","components":["section"]},{"id":"section","components":["accordion","action-button","button","button","cards","carousel","checkout","checkout-shipping","credit-card-application-form","loan-application-form","get-offer","new-account","loan-calculator","insurance","add-external","confirmation","feedback","join-us","columns","contentfragment","dm-asset","dm-template","embed-adaptive-form","find-a-doctor","flight-search","flights","forex","form","fragment","hero","image","quote","search","separator","tabs","teaser","text","title","video"]},{"id":"cards","components":["card"]},{"id":"columns","components":["column"]},{"id":"column","components":["action-button","button","dm-asset","dm-template","image","text","title","video"]},{"id":"flights","components":["flight"]},{"...":"../blocks/*/_*.json#/filters"}]
+[
+  {
+    "id": "main",
+    "components": ["section"]
+  },
+  {
+    "id": "section",
+    "components": [
+      "accordion",
+      "action-button",
+      "add-external",
+      "build-your-own",
+      "button",
+      "cards",
+      "carousel",
+      "cart",
+      "category-products-lister",
+      "checkout",
+      "checkout-shipping",
+      "child-account-application",
+      "coffee-quiz-frescopa",
+      "columns",
+      "confirmation",
+      "contentfragment",
+      "create-account",
+      "credit-card-application-form",
+      "dm-template",
+      "dynamic-media-image",
+      "embed-adaptive-form",
+      "feedback",
+      "find-a-doctor",
+      "flight-search",
+      "flights",
+      "forex",
+      "form",
+      "fragment",
+      "get-offer",
+      "hero",
+      "iframe",
+      "image",
+      "insurance",
+      "join-us",
+      "loan-application-form",
+      "loan-calculator",
+      "name-change-request",
+      "new-account",
+      "new-arrival",
+      "order-confirmation",
+      "order-summary",
+      "product-card",
+      "product-card-list",
+      "product-detail",
+      "quote",
+      "search",
+      "separator",
+      "set-up-auto-save",
+      "sign-in",
+      "tabs",
+      "teaser",
+      "test-drive",
+      "text",
+      "title",
+      "transfer-funds",
+      "video"
+    ]
+  },
+  {
+    "id": "cards",
+    "components": ["card"]
+  },
+  {
+    "id": "columns",
+    "components": ["column"]
+  },
+  {
+    "id": "column",
+    "components": [
+      "action-button",
+      "button",
+      "dm-template",
+      "image",
+      "text",
+      "title",
+      "video"
+    ]
+  },
+  {
+    "...": "../blocks/*/_*.json#/filters"
+  }
+]

@@ -39,38 +39,71 @@
         "label": "Hostname",
         "description": "Provide the hostname of author instance (without the ending slash) e.g. https://author-pXXXXX-eXXXXXXX.adobeaemcloud.com"
       },
-      {          
+      {
         "component": "aem-content",
         "name": "theme_cf_reference",
         "label": "Brand Theme",
         "description": "Select the CF with authored values for the brand theme. This will be applied on the pages",
         "valueType": "string",
         "validation": {
-            "rootPath": "/content/dam"
+          "rootPath": "/content/dam"
         }
       },
       {
-          "component": "select",
-          "name": "theme",
-          "label": "Theme",
-          "options": [
-            {
-              "name": "default",
-              "value": ""
-            },
-            {
-              "name": "Mango Haze",
-              "value": "mango-haze"
-            },
-            {
-              "name": "Lavender Chill",
-              "value": "lavender-chill"
-            },
-             {
-              "name": "Meadow Light",
-              "value": "meadow-light"
-            }
-          ]
+        "component": "select",
+        "name": "theme",
+        "label": "Theme",
+        "description": "Note: This takes priority over CF based theme.",
+        "options": [
+          {
+            "name": "default",
+            "value": ""
+          },
+          {
+            "name": "Gray Theme",
+            "value": "gray-theme"
+          },
+          {
+            "name": "Red Theme",
+            "value": "red-theme"
+          },
+          {
+            "name": "Blue Theme",
+            "value": "blue-theme"
+          },
+          {
+            "name": "Green Theme",
+            "value": "green-theme"
+          },
+          {
+            "name": "WeHealthcare Theme",
+            "value": "wehealthcare-theme"
+          },
+          {
+            "name": "Fly Theme",
+            "value": "fly-theme"
+          },
+          {
+            "name": "SecurBank Theme",
+            "value": "securbank-theme"
+          },
+          {
+            "name": "Luma Theme",
+            "value": "luma-theme"
+          },
+          {
+            "name": "Citi Signal",
+            "value": "citi-signal-theme"
+          },
+          {
+            "name": "Frescopa Theme",
+            "value": "frescopa-theme"
+          },
+          {
+            "name": "Carvelo Theme",
+            "value": "carvelo-theme"
+          }
+        ]
       },
       {
         "component": "text",
