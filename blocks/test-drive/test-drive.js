@@ -317,7 +317,8 @@ function setNestedValue(obj, dotPath, value) {
 
 async function fetchButtonData(url) {
   try {
-    const resp = await fetch(url);
+    const fetchUrl = url.endsWith('.json') ? url : `${url}.json`;
+    const resp = await fetch(fetchUrl);
     if (!resp.ok) return null;
     const json = await resp.json();
     if (!Array.isArray(json.data)) return null;
