@@ -1,4 +1,4 @@
-import { readBlockConfig } from '../../scripts/aem.js';
+import { createOptimizedPicture, readBlockConfig } from '../../scripts/aem.js';
 import { normalizeAemPath } from '../../scripts/scripts.js';
 import { dispatchCustomEvent } from '../../scripts/custom-events.js';
 
@@ -58,6 +58,14 @@ function buildDefaultSteps(base) {
       ],
     },
   ];
+}
+
+function createQuizOptionPicture(src, alt) {
+  if (!src) return null;
+
+  const picture = createOptimizedPicture(src, alt);
+  picture.classList.add('coffee-quiz-frescopa__card-picture');
+  return picture;
 }
 
 
@@ -186,11 +194,11 @@ export default async function decorate(block) {
       if (selections[index] === optIndex) card.classList.add('is-selected');
 
       if (option.image) {
-        const img = document.createElement('img');
-        img.src = option.image;
-        img.alt = option.label || `Option ${optIndex + 1}`;
-        img.loading = 'lazy';
-        card.append(img);
+        const picture = createQuizOptionPicture(
+          option.image,
+          option.label || `Option ${optIndex + 1}`,
+        );
+        if (picture) card.append(picture);
       }
 
       if (option.label) {
