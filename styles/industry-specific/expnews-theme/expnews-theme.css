@@ -1,0 +1,174 @@
+body.expnews-theme {
+  --main-accent-color: #ee4b3a;
+  --nav-text-color: #14142b;
+}
+
+/* header: white bar, no dark overlay */
+body.expnews-theme header .nav-wrapper {
+  background-color: #ffffff;
+  color: var(--nav-text-color);
+  box-shadow: 0 1px 0 rgb(0 0 0 / 8%);
+}
+
+body.expnews-theme header nav .nav-hamburger button {
+  color: var(--nav-text-color);
+}
+
+/* brand logo */
+body.expnews-theme header .nav-brand {
+  flex-basis: unset;
+  display: flex;
+  align-items: center;
+}
+
+body.expnews-theme header nav .nav-brand a {
+  display: flex;
+  align-items: center;
+}
+
+body.expnews-theme header nav .nav-brand img {
+  width: auto;
+  height: 44px;
+}
+
+body.expnews-theme header nav .nav-brand picture {
+  width: auto;
+  aspect-ratio: auto;
+}
+
+/* nav links: sit close to the logo, not centered in the leftover flex space */
+@media (width >= 900px) {
+  body.expnews-theme header nav .nav-sections {
+    flex: 0 1 auto;
+  }
+
+  body.expnews-theme header nav .nav-sections ul {
+    justify-content: flex-start;
+    gap: 32px;
+  }
+}
+
+body.expnews-theme header nav .nav-sections ul > li > a {
+  color: var(--nav-text-color);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+body.expnews-theme header nav .nav-sections ul > li > a:hover {
+  color: var(--main-accent-color);
+}
+
+body.expnews-theme header .nav-wrapper nav .nav-sections ul > li > a::before {
+  background: var(--main-accent-color);
+}
+
+body.expnews-theme header nav .nav-sections .default-content-wrapper > ul > li {
+  color: var(--nav-text-color);
+}
+
+/* source header only shows nav links + account icon: hide search and language switcher */
+body.expnews-theme header nav .nav-tools .search-wrapper,
+body.expnews-theme header nav .nav-tools .lang-switcher {
+  display: none !important;
+}
+
+/* sign-in link becomes an icon-only account glyph */
+body.expnews-theme header nav .nav-tools .sign-in-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  font-size: 0;
+  color: transparent;
+  border: 0;
+  background: transparent;
+}
+
+body.expnews-theme header nav .nav-tools .sign-in-btn::before {
+  content: '';
+  display: block;
+  width: 22px;
+  height: 22px;
+  background-color: var(--nav-text-color);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z'/%3E%3C/svg%3E") no-repeat center / contain;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+body.expnews-theme header nav .nav-tools .sign-in-btn::after {
+  content: none !important;
+}
+
+/* mobile: hamburger left, logo centered, account icon right */
+@media (width < 900px) {
+  body.expnews-theme header nav {
+    justify-content: space-between;
+  }
+
+  body.expnews-theme header .nav-brand {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  body.expnews-theme header nav .nav-brand a {
+    display: inline-flex;
+  }
+
+  /* keep the logo's own aspect ratio instead of being width-clamped by the grown flex box */
+  body.expnews-theme header nav .nav-brand img {
+    height: 28px;
+    max-width: none;
+  }
+
+  body.expnews-theme header nav .nav-tools .sign-in-btn {
+    display: inline-flex !important;
+  }
+}
+
+/* footer: white bar, copyright left / nav links right on one row */
+body.expnews-theme footer {
+  background-color: #ffffff;
+  color: var(--nav-text-color);
+}
+
+body.expnews-theme footer .footer .default-content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+body.expnews-theme footer .footer .default-content-wrapper ul {
+  order: 2;
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 28px;
+}
+
+body.expnews-theme footer .footer .default-content-wrapper ul > li {
+  color: var(--nav-text-color);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+body.expnews-theme footer .footer .default-content-wrapper p {
+  order: 1;
+  color: #9a9a9a;
+  font-size: 13px;
+  line-height: 1.5;
+  max-width: 480px;
+  margin: 30px 0 0;
+}
+
+@media (width < 900px) {
+  /* source footer shows only the copyright text on mobile */
+  body.expnews-theme footer .footer .default-content-wrapper ul {
+    display: none;
+  }
+}
