@@ -52,6 +52,10 @@ main .product-detail .pd-content {
     min-width: 0;
 }
 
+main .product-detail .pd-date {
+  display: none;
+}
+
 main .product-detail .pd-category {
     display: block;
     margin: 0 0 16px;

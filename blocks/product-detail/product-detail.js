@@ -249,7 +249,8 @@ function buildProductDetail(product, isAuthor, eventConfig = {}) {
     poster = {},
     cast,
     age,
-    image
+    image,
+    releaseDate
   } = product;
   
   const modelType = eventConfig.modelType || 'default';
@@ -339,6 +340,11 @@ function buildProductDetail(product, isAuthor, eventConfig = {}) {
 
   // BINJI SPECIFIC: Meta Row (Category, Rating, Age)
   if (modelType === 'video') {
+    const dateTime = document.createElement("p");
+    dateTime.className = "pd-date";
+    dateTime.textContent = releaseDate || "";
+    contentSection.appendChild(dateTime);
+
     const nameEl = document.createElement("h1");
     nameEl.className = "pd-name";
     nameEl.textContent = name || "";
