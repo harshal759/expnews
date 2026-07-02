@@ -8803,6 +8803,22 @@
       },
       {
         "component": "boolean",
+        "name": "showdescription",
+        "label": "Show Description",
+        "value": "false",
+        "valueType": "boolean",
+        "description": "When enabled, each product card shows a description directly in the listing view."
+      },
+      {
+        "component": "boolean",
+        "name": "showdate",
+        "label": "Show Date",
+        "value": "false",
+        "valueType": "boolean",
+        "description": "When enabled, each product card shows a date directly in the listing view."
+      },
+      {
+        "component": "boolean",
         "name": "enableaddtocartattileview",
         "label": "Enable Add to Cart at Tile View",
         "value": "false",
