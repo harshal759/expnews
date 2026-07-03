@@ -1,6 +1,11 @@
 body.expnews-theme {
   --main-accent-color: #ee4b3a;
   --nav-text-color: #14142b;
+  --nav-height: 88px;
+}
+
+body.expnews-theme header {
+  position: static;
 }
 
 /* header: white bar, no dark overlay */
@@ -8,10 +13,29 @@ body.expnews-theme header .nav-wrapper {
   background-color: #ffffff;
   color: var(--nav-text-color);
   box-shadow: 0 1px 0 rgb(0 0 0 / 8%);
+  position: static;
 }
 
 body.expnews-theme header nav .nav-hamburger button {
   color: var(--nav-text-color);
+}
+
+/* Mobile hamburger */
+body.expnews-theme header .nav-hamburger button {
+  color: #2C2C2C;
+  width: 36px;
+  height: 36px;
+  background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" fill="%232C2C2C"><rect fill-rule="evenodd" height="4" rx="1" ry="1" width="28" x="4" y="16"/><rect fill-rule="evenodd" height="4" rx="1" ry="1" width="28" x="4" y="6"/><rect fill-rule="evenodd" height="4" rx="1" ry="1" width="28" x="4" y="26"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18px 18px;
+}
+
+body.expnews-theme header .nav-hamburger-icon,
+body.expnews-theme header .nav-hamburger-icon::before,
+body.expnews-theme header .nav-hamburger-icon::after {
+  content: unset;
+  display: none;
 }
 
 /* brand logo */
@@ -26,9 +50,13 @@ body.expnews-theme header nav .nav-brand a {
   align-items: center;
 }
 
+body.expnews-theme header nav .nav-brand a::after {
+  content: unset;
+}
+
 body.expnews-theme header nav .nav-brand img {
   width: auto;
-  height: 44px;
+  height: 31px;
 }
 
 body.expnews-theme header nav .nav-brand picture {
@@ -74,26 +102,37 @@ body.expnews-theme header nav .nav-tools .lang-switcher {
 
 /* sign-in link becomes an icon-only account glyph */
 body.expnews-theme header nav .nav-tools .sign-in-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  padding: 0;
-  font-size: 0;
-  color: transparent;
-  border: 0;
-  background: transparent;
+  display: block;
+  font-size: 14px;
+  line-height: 18px;
+  padding: 4px 14px;
+  color: #222222;
+  border-radius: 10px;
+  border: 2px solid #222222;
 }
 
-body.expnews-theme header nav .nav-tools .sign-in-btn::before {
-  content: '';
-  display: block;
-  width: 22px;
-  height: 22px;
-  background-color: var(--nav-text-color);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z'/%3E%3C/svg%3E") no-repeat center / contain;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z'/%3E%3C/svg%3E") no-repeat center / contain;
+@media screen and (max-width: 768px) {
+  body.expnews-theme header nav .nav-tools .sign-in-btn {
+    display: inline-flex;
+    width: 22px;
+    height: 22px;
+    align-items: center;
+    justify-content: center;
+    font-size: 0;
+    border: 0;
+    padding: 0;
+  }
+
+  body.expnews-theme header nav .nav-tools .sign-in-btn::before {
+    content: '';
+    display: block;
+    width: 22px;
+    height: 22px;
+    background-color: var(--nav-text-color);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z'/%3E%3C/svg%3E") no-repeat center / contain;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z'/%3E%3C/svg%3E") no-repeat center / contain;
+  }
+
 }
 
 body.expnews-theme header nav .nav-tools .sign-in-btn::after {
@@ -102,6 +141,10 @@ body.expnews-theme header nav .nav-tools .sign-in-btn::after {
 
 /* mobile: hamburger left, logo centered, account icon right */
 @media (width < 900px) {
+  body.expnews-theme header nav .nav-sections ul {
+    gap: 8px;
+  }
+
   body.expnews-theme header nav {
     justify-content: space-between;
   }
@@ -124,6 +167,38 @@ body.expnews-theme header nav .nav-tools .sign-in-btn::after {
 
   body.expnews-theme header nav .nav-tools .sign-in-btn {
     display: inline-flex !important;
+  }
+
+  body.expnews-theme header nav[aria-expanded='true'] .nav-tools .sign-in-btn, body.expnews-theme header nav[aria-expanded='true'] .nav-tools a[href*="sign"] {
+    font-size: 0 !important;
+    min-height: unset !important;
+    padding: unset !important;
+    text-align: unset !important;
+  }
+
+  body.expnews-theme header nav[aria-expanded='true']::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 111111;
+    background-color: var(--dark-color-opacity);
+  }
+
+  body.expnews-theme header nav[aria-expanded='true'] .nav-sections {
+    background-color: #fff;
+    padding: 1rem;
+  }
+
+  body.expnews-theme header nav[aria-expanded='true'] .nav-tools {
+    position: static;
+    width: unset;
+    background-color: unset;
+  }
+
+  body.expnews-theme header nav[aria-expanded='true'] .nav-tools .lang-switcher {
+    display: none !important;
   }
 }
 
@@ -151,10 +226,14 @@ body.expnews-theme footer .footer .default-content-wrapper ul {
   gap: 28px;
 }
 
-body.expnews-theme footer .footer .default-content-wrapper ul > li {
+body.expnews-theme footer .footer .default-content-wrapper ul > li a {
   color: var(--nav-text-color);
   font-weight: 600;
-  font-size: 15px;
+  font-size: 14px;
+}
+
+body.expnews-theme footer .footer .default-content-wrapper ul > li a::after {
+  content: unset;
 }
 
 body.expnews-theme footer .footer .default-content-wrapper p {
@@ -162,7 +241,7 @@ body.expnews-theme footer .footer .default-content-wrapper p {
   color: #9a9a9a;
   font-size: 13px;
   line-height: 1.5;
-  max-width: 480px;
+  max-width: 361px;
   margin: 30px 0 0;
 }
 
