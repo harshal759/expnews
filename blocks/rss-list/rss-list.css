@@ -1,0 +1,91 @@
+main .rss-list {
+  display: block;
+  width: 100%;
+}
+
+main .rss-list .rss-list-loading,
+main .rss-list .rss-list-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #4d4d4d;
+  font-size: 16px;
+}
+
+main .rss-list .rss-list-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--rss-columns, 3), minmax(0, 1fr));
+  gap: 1rem;
+}
+
+main .rss-list .rss-card {
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+main .rss-list .rss-card-media {
+  height: 147px;
+  width: 100%;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+main .rss-list .rss-card-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+main .rss-list .rss-card-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 8px 0 0;
+  gap: 0;
+}
+
+main .rss-list .rss-card-date {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #4d4d4d;
+}
+
+main .rss-list .rss-card-title {
+  margin: 0.5rem 0 1em;
+  font-size: 16.38px;
+  line-height: 1.5;
+  color: #4d4d4d;
+  font-weight: 700;
+  text-align: left;
+}
+
+main .rss-list .rss-card-desc p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #4d4d4d;
+  font-weight: 400;
+  text-align: left;
+}
+
+@media (width <= 768px) {
+  main .rss-list .rss-list-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  main .rss-list .rss-card {
+    max-width: 184px;
+  }
+}
