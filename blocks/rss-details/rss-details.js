@@ -1,10 +1,9 @@
-import { readBlockConfig } from '../../scripts/aem.js';
+import { createOptimizedPicture, readBlockConfig } from '../../scripts/aem.js';
+import { div } from '../../scripts/dom-helpers.js';
 import { parseRSS } from '../../scripts/utils.js';
 
 export default async function decorate(block) {
   const cfg = readBlockConfig(block) || {};
-  const backText = cfg['back-link-text'] || '← Back to News';
-  const backUrl = cfg['back-link-url'] || '/news';
   
   const urlParams = new URLSearchParams(window.location.search);
   const articleId = urlParams.get('id');
@@ -40,13 +39,14 @@ export default async function decorate(block) {
 
   if (article) {
     const dateText = article.pubDate ? new Date(article.pubDate).toLocaleString() : '';
+    let promoBanner = null;
+    if (cfg['rss-promo-banner']) {
+      const bannerPicture = createOptimizedPicture(cfg['rss-promo-banner'], cfg['rss-promo-banner-alt'] || 'Promo Banner');
+      promoBanner = div(div({ class: 'rss-promo-banner' }, bannerPicture));
+    }
     
     block.innerHTML = `
       <div class="rss-detail-wrapper">
-        <div class="rss-detail-nav">
-          <a href="${backUrl}">${backText}</a>
-        </div>
-        
         <div class="rss-detail-image">
           ${article.image ? `<img src="${article.image}" alt="${article.title}">` : ''}
         </div>
@@ -58,10 +58,9 @@ export default async function decorate(block) {
           <div class="rss-detail-body">
             ${article.description}
           </div>
-          <div class="rss-detail-action">
-             <a href="${article.guid}" target="_blank" rel="noopener noreferrer" class="rss-detail-btn">Read Original</a>
-          </div>
+          <div class="rss-detail-category">Category: ${article.category}</div>
         </div>
+        ${promoBanner ? promoBanner.innerHTML : ''}
       </div>
     `;
   } else {

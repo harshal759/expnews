@@ -5,23 +5,20 @@ export default async function decorate(block) {
   const cfg = readBlockConfig(block) || {};
   const maxDisplay = Number(cfg.maxcardsdisplayed) || 6;
   const cardsPerRow = cfg['cards-per-row'] || '3';
-  const categoryFilter = cfg['category-filter'] || '';
-  const detailPageUrl = cfg['detail-page-url'] || '/news/article';
+  const categoryFilter = cfg['category-filter'] ? `/${cfg['category-filter']}/rss` : '/world/rss';
+  const detailPageUrl = cfg['detail-page-url'] || '/en/article';
   const showDesc = String(cfg.showdescription).toLowerCase() === 'true';
 
   block.innerHTML = '<div class="rss-list-loading">Loading news...</div>';
 
   try {
-    const response = await fetch('https://www.theguardian.com/uk/business/rss');
+    const response = await fetch(`https://www.theguardian.com${categoryFilter}`);
     if (!response.ok) throw new Error('RSS fetch failed');
     const xmlText = await response.text();
 
     const freshItems = parseRSS(xmlText);
     let items = updateLocalStorage(freshItems);
 
-    if (categoryFilter) {
-      items = items.filter(item => item.category.toLowerCase().includes(categoryFilter.toLowerCase()));
-    }
     items = items.slice(0, maxDisplay);
 
     block.innerHTML = ''; 
@@ -36,7 +33,7 @@ export default async function decorate(block) {
       const targetUrl = `${detailPageUrl}?id=${item.id}`;
       card.addEventListener('click', () => { window.location.href = targetUrl; });
 
-      const dateText = item.pubDate ? new Date(item.pubDate).toLocaleDateString() : '';
+      const dateText = item.pubDate ? new Date(item.pubDate).toLocaleString() : '';
 
       card.innerHTML = `
         <div class="rss-card-media">

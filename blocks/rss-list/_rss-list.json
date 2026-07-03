@@ -52,7 +52,7 @@
           "name": "detail-page-url",
           "label": "Detail Page Redirect URL",
           "valueType": "string",
-          "value": "/news/article"
+          "value": "/en/article"
         },
         {
           "component": "boolean",
