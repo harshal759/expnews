@@ -75,10 +75,6 @@ function normalizeRedirectUrl(url) {
   return normalizeAemPath(redirectUrl);
 }
 
-function isTruthy(value) {
-  return value === true || String(value || "").trim().toLowerCase() === "true";
-}
-
 function appendProductId(url, productId) {
   if (!url || !productId) return "#";
   const [baseUrl, hash] = url.split("#");
@@ -92,8 +88,8 @@ function buildProductUrl(item, isAuthor, redirectUrl = "") {
   return appendProductId(redirectUrl || getDefaultProductDetailPath(isAuthor), productId);
 }
 
-function buildCard(item, isAuthor, redirectUrl = "", enableAddToCart = false, addToCartEventType = '', config = {}) {
-  const { id, sku, name, damImageURL, image, category = [], price, description = {}, releaseDate } = item || {};
+function buildCard(item, isAuthor, redirectUrl = "", enableAddToCart = false, addToCartEventType = '') {
+  const { id, sku, name, damImageURL, image, category = [], price, description = {} } = item || {};
   const imgData = damImageURL || image || {};
   const productId = sku || id || "";
 
@@ -130,22 +126,10 @@ function buildCard(item, isAuthor, redirectUrl = "", enableAddToCart = false, ad
     .map((catValue) => normalizeCategoryValue(catValue).replace(/\//g, " / "))
     .filter(Boolean)
     .join(" / ");
-  meta.append(cat);
-  
-  const date = document.createElement("p");
-  date.className = "cpl-card-date";
-  date.textContent = releaseDate || "7/1/2026 10:29 PM";
-  if (isTruthy(config.showdate)) meta.append(date);
-  
   const title = document.createElement("h3");
   title.className = "cpl-card-title";
   title.textContent = name || "";
-  meta.append(title);
-  
-  const desc = document.createElement("div");
-  desc.className = "cpl-card-desc";
-  desc.innerHTML = description?.html || "";
-  if (isTruthy(config.showdescription)) meta.append(desc);
+  meta.append(cat, title);
 
   card.append(imgWrap, meta);
   wrapper.append(card);
@@ -445,7 +429,7 @@ export default async function decorate(block) {
   }
 
   const cards = items.map((item) => (
-    buildCard(item, isAuthor, redirectUrl, enableAddToCart, addToCartEventType, cfg)
+    buildCard(item, isAuthor, redirectUrl, enableAddToCart, addToCartEventType)
   ));
   grid.append(...cards);
 }
