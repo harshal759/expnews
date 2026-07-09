@@ -1,13 +1,41 @@
+
 main .rss-list-wrapper {
   padding: 0 !important;
 }
 
+/* 1. Keep the main container visible to hold the space */
 main .rss-list {
   display: block;
   width: 100%;
+  min-height: 300px;
 }
 
-main .rss-list .rss-list-loading,
+/* 2. Hide the raw authored HTML table immediately on load */
+main .rss-list > div:not(.rss-list-loading):not(.rss-list-grid) {
+  display: none;
+}
+
+/* 3. Skeleton Loader Styling */
+main .rss-list .rss-list-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 300px;
+  background-color: #f4f4f4;
+  color: #888;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 8px;
+  animation: skeleton-pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes skeleton-pulse {
+  0% { background-color: #f4f4f4; }
+  50% { background-color: #e6e6e6; }
+  100% { background-color: #f4f4f4; }
+}
+
 main .rss-list .rss-list-empty {
   text-align: center;
   padding: 40px 20px;
