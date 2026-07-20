@@ -1,4 +1,4 @@
-import { readBlockConfig, createLumaProductImagePicture } from "../../scripts/aem.js";
+import { readBlockConfig, createLumaProductImagePicture, fetchPlaceholders } from "../../scripts/aem.js";
 import { isAuthorEnvironment, normalizeAemPath, normalizeCategoryValue } from "../../scripts/scripts.js";
 import { dispatchCustomEvent } from "../../scripts/custom-events.js";
 import {
@@ -7,27 +7,14 @@ import {
 } from '../../scripts/utils.js';
 
 const PUBLISH_GRAPHQL_PROXY_ENDPOINT = "https://275323-918sangriatortoise.adobeioruntime.net/api/v1/web/dx-excshell-1/fetch-product-information";
-const GRAPHQL_CONFIG_PATH = '/graphql.json';
 const AUTHOR_GRAPHQL_BASE = '/graphql/execute.json/dsn-eds-configuration/';
 const DEFAULT_GRAPHQL_QUERY_NAME = 'productsListByPath';
 
-let graphqlConfigPromise;
-async function getGraphQLConfig() {
-  if (!graphqlConfigPromise) {
-    graphqlConfigPromise = fetch(GRAPHQL_CONFIG_PATH)
-      .then((r) => {
-        if (!r.ok) return {};
-        return r.json().then((json) => (Array.isArray(json?.data) ? json : {}));
-      })
-      .catch(() => ({}));
-  }
-  return graphqlConfigPromise;
-}
-
+// Query name comes from the project's placeholders sheet (key: query-name);
+// missing sheet or row falls back to the default query.
 async function getGraphQLQueryName() {
-  const cfg = await getGraphQLConfig();
-  const row = cfg?.data?.find((r) => r.key === 'graphql-query-name');
-  return row?.value?.trim() || DEFAULT_GRAPHQL_QUERY_NAME;
+  const placeholders = await fetchPlaceholders().catch(() => ({}));
+  return placeholders?.productListQueryName?.trim() || DEFAULT_GRAPHQL_QUERY_NAME;
 }
 
 let categoryProductsAuthorBasePromise;
@@ -395,11 +382,9 @@ export default async function decorate(block) {
   // Clear author table
   block.innerHTML = "";
 
-  const maxCount = Number(cfg.maxcardsdisplayed);
-
   const allItems = await fetchProducts(folderHref);
   const categoryItems = filterByCategories(allItems, tags);
-  let items = maxCount && maxCount > 0 ? categoryItems?.slice(0, maxCount) : categoryItems;
+  let items = categoryItems;
 
   if (styleVariant === "carousel") {
     if (!items || items.length === 0) {

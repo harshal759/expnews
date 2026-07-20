@@ -40,12 +40,23 @@ body.binji-theme main {
   flex: 1;
 }
 
-body.binji-theme:has(.user-profile-host) header nav .nav-sections {
+body.binji-theme:has(.user-profile-host) header nav .nav-sections,
+body.binji-theme:has(.user-profile-host) footer .footer .section:not(.default) ul {
   display: flex;
 }
 
-body.binji-theme:has(.user-profile-host) footer .footer .section:not(.default) ul {
-  display: flex;
+body.binji-theme main .section.video-container, body.binji-theme main .section.video-container .video-wrapper {
+  max-width: unset;
+}
+
+body.binji-theme main .section.video-container .video.block {
+  height: 360px;
+}
+
+body.binji-theme main .section.video-container video {
+  height: 800px;
+  width: auto;
+  object-fit: cover;
 }
 
 body.binji-theme main .product-detail .pd-video-layout .pd-video-image-wrapper {
@@ -97,7 +108,7 @@ body.binji-theme header nav#nav {
 /* 2.2 Nav layout — logo | links | … | tools */
 body.binji-theme header nav {
   justify-content: flex-start;
-  gap: 40px;
+  gap: 32px;
 }
 
 body.binji-theme header nav .nav-sections {
@@ -117,6 +128,11 @@ body.binji-theme header nav .nav-brand a,
 body.binji-theme header nav .nav-brand picture {
   display: flex;
   align-items: center;
+  flex-basis: unset;
+}
+
+body.binji-theme header nav .nav-brand a::after {
+  content: unset;
 }
 
 body.binji-theme header nav .nav-brand picture img {
@@ -127,6 +143,7 @@ body.binji-theme header nav .nav-brand picture img {
 /* 2.4 Nav links */
 body.binji-theme header nav .nav-sections ul {
   justify-content: flex-start;
+  gap: 32px;
 }
 
 /* <li> may hold plain text (no <a>), so color both */
@@ -136,6 +153,7 @@ body.binji-theme header nav .nav-sections ul>li>a {
   font-family: var(--heading-font-family);
   font-size: 1rem;
   cursor: pointer;
+  display: block;
 }
 
 /* Active underline indicator */
@@ -388,7 +406,7 @@ body.binji-theme header .nav-hamburger {
 }
 
 body.binji-theme:has(.user-profile-host) header .nav-hamburger {
-  display: block;
+  display: none;
 }
 
 /* Mobile hamburger */
@@ -410,6 +428,11 @@ body.binji-theme header .nav-hamburger-icon::after {
 }
 
 @media (width < 900px) {
+
+  body.binji-theme:has(.user-profile-host) header .nav-hamburger {
+    display: block;
+  }
+
   body.binji-theme header nav#nav {
     margin: 0 1rem;
     justify-content: space-between;
@@ -536,7 +559,7 @@ body.binji-theme .product-detail .pd-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top center;
+  object-position: center;
 }
 
 body.binji-theme main .product-detail .pd-video-layout .pd-video-player {
@@ -559,8 +582,14 @@ body.binji-theme main .product-detail .pd-video-layout .pd-video-category-tag {
    row 4 = description (full width) */
 body.binji-theme .product-detail .pd-content {
   display: grid;
-  grid-template-areas: "name meta" "cast cast" "description description";
   grid-template-columns: 1.5fr 1fr;
+  grid-template-areas: 
+      "name meta" 
+      "cast cast" 
+      "description description"
+      "extras extras"
+      "quantity quantity"
+      "actions actions";
 }
 
 /* Category: full-width row above title */
@@ -585,6 +614,7 @@ body.binji-theme .product-detail .pd-name {
 }
 
 body.binji-theme main .product-detail .pd-video-layout .pd-video-meta {
+  justify-content: flex-start;
   grid-area: meta;
   margin: 12px 0;
 }
@@ -597,7 +627,7 @@ body.binji-theme main .product-detail .pd-video-layout .pd-video-age {
   line-height: 1;
 }
 
-body.binji-theme .product-detail .pd-video-layout .pd-cast {
+body.binji-theme main .product-detail .pd-container.pd-video-layout .pd-cast {
   grid-area: cast;
   color: #fff;
   font-size: 21px;
@@ -607,10 +637,11 @@ body.binji-theme .product-detail .pd-video-layout .pd-cast {
 }
 
 /* 4.6 Description */
-body.binji-theme .product-detail .pd-description {
+body.binji-theme main .product-detail .pd-container.pd-video-layout .pd-description {
   color: #fff;
   grid-area: description;
   border-top: 0;
+  margin: 0;
 }
 
 body.binji-theme .product-detail .pd-description a {
@@ -694,9 +725,10 @@ body.binji-theme .product-detail .pd-rec-card-title {
   }
 
   /* Content area gets its own padding since container has none */
-  body.binji-theme .product-detail .pd-content {
+  body.binji-theme main .product-detail .pd-container.pd-video-layout .pd-content {
     display: flex;
     flex-direction: column;
+    row-gap: unset;
     padding-inline: 16px;
   }
 
@@ -1270,6 +1302,10 @@ body.binji-theme main .section.category-products-lister-container .category-prod
   align-items: flex-start;
 }
 
+body.binji-theme main .section.category-products-lister-container.center-card-content .category-products-lister .cpl-card .cpl-card-meta {
+  align-items: center;
+}
+
 body.binji-theme main .section.category-products-lister-container .category-products-lister .cpl-card .cpl-card-meta .cpl-card-category {
   padding: 0;
   margin: 0;
@@ -1395,13 +1431,170 @@ body.binji-theme main .section.video-container .video-wrapper {
   padding: 0;
 }
 
-body.binji-theme main .section.video-container .video-wrapper video {
-  width: 100%;
-  max-width: unset;
-}
-
-body.binji-theme:has(.user-profile-btn) main .section:has(.sign-in-wrapper) {
+body.binji-theme:has(.user-profile-btn) main .section:has(.sign-in-wrapper), body.binji-theme:has(.user-profile-btn) main .section.sign-in-wrapper {
   display: none !important;
 }
 
-/*# sourceMappingURL=binji-theme.v2.css.map */
+/* =============================================================================
+   NEW ARRIVAL - BINJI THEME OVERRIDES
+   ============================================================================= */
+
+/* Card base */
+body.binji-theme .new-arrival .na-card {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  transition: transform 0.2s ease;
+}
+
+body.binji-theme .new-arrival .na-card:hover {
+  transform: scale(1.03);
+  box-shadow: none;
+}
+
+/* Card Media */
+body.binji-theme .new-arrival .na-card-media {
+  aspect-ratio: 3 / 2;
+  height: auto;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #0b0b0f;
+}
+
+body.binji-theme .new-arrival .na-card-media picture,
+body.binji-theme .new-arrival .na-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: none;
+}
+
+/* Card Meta */
+body.binji-theme .new-arrival .na-card-meta {
+  text-align: left;
+  align-items: flex-start;
+  padding: 10px 0 0;
+}
+
+/* Card Category */
+body.binji-theme .new-arrival .na-card-category {
+  color: #a0a0a0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: left;
+  margin-bottom: 4px;
+}
+
+/* Card Title */
+body.binji-theme .new-arrival .na-card-title {
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+/* Tags (Mapped for future-proofing if you use tags) */
+body.binji-theme .new-arrival .na-tag {
+  background: rgb(255 255 255 / 8%);
+  border-color: rgb(255 255 255 / 20%);
+  color: #fff;
+}
+
+/* Empty State */
+body.binji-theme .new-arrival .na-empty {
+  color: #a0a0a0;
+}
+
+/* Carousel specific UI */
+body.binji-theme .new-arrival .na-title {
+  color: #fff;
+}
+
+body.binji-theme .new-arrival .na-carousel-btn {
+  border-color: #fff !important;
+  color: #fff !important;
+  background: transparent !important;
+}
+
+body.binji-theme .new-arrival .na-carousel-btn:hover:not(:disabled) {
+  background: #fff !important;
+  color: #000 !important;
+  border-color: #fff !important;
+}
+
+/* Container and Layout overrides */
+@media screen and (max-width: 768px) {
+  body.binji-theme main .section.new-arrival-container {
+    padding: 0 1rem;
+  }
+}
+
+body.binji-theme main .section.new-arrival-container .new-arrival-wrapper {
+  padding: 0;
+}
+
+body.binji-theme main .section.new-arrival-container .default-content-wrapper {
+  padding: 0;
+}
+
+body.binji-theme main .section.new-arrival-container .default-content-wrapper h2 {
+  color: #fff;
+  padding: 0;
+  margin: 0.67em 0;
+  font-size: 28px;
+  line-height: 1.5;
+}
+
+/* Hide tags container if it exists */
+body.binji-theme main .section.new-arrival-container .na-tags {
+  display: none;
+}
+
+/* Grid Gap for your Horizontal Grid */
+body.binji-theme main .section.new-arrival-container .new-arrival .na-horizontal-grid {
+  padding: 0;
+  gap: 1rem;
+}
+
+/* Specific container overrides */
+body.binji-theme main .section.new-arrival-container .new-arrival .na-card {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+}
+
+body.binji-theme main .section.new-arrival-container .new-arrival .na-card .na-card-media {
+  height: fit-content;
+}
+
+body.binji-theme main .section.new-arrival-container .new-arrival .na-card .na-card-media img {
+  min-height: 150px;
+  object-fit: cover;
+  object-position: center;
+}
+
+body.binji-theme main .section.new-arrival-container .new-arrival .na-card .na-card-meta {
+  padding: 16px 0 0;
+  align-items: flex-start;
+}
+
+body.binji-theme main .section.new-arrival-container.center-card-content .new-arrival .na-card .na-card-meta {
+  align-items: center;
+}
+
+body.binji-theme main .section.new-arrival-container .new-arrival .na-card .na-card-meta .na-card-category {
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: #fff;
+  font-weight: 700;
+  text-align: left;
+}
+
+body.binji-theme main .section.new-arrival-container .new-arrival .na-card .na-card-meta .na-card-title {
+  font-size: 21px;
+  line-height: 32px;
+  margin: 0 0 0.83em;
+}

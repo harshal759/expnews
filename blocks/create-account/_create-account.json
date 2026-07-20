@@ -72,10 +72,10 @@
           "value": "single",
           "valueType": "string",
           "options": [
-            { "name": "Single Form (Flat)", "value": "single" },
+            { "name": "Default Form (Single-Page)", "value": "single" },
             { "name": "Wizard (Multi-Step)", "value": "wizard" }
           ],
-          "description": "Choose between a standard flat form or a multi-step wizard experience."
+          "description": "Choose between the default single page form or a multi-step wizard experience."
         },
         {
           "component": "boolean",

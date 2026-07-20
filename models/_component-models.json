@@ -162,8 +162,8 @@
       },
       {
         "component": "aem-tag",
-        "name": "cq:tags",
-        "label": "Tags",
+        "name": "cqTags",
+        "label": "Category Tags",
         "valueType": "string",
         "rootPath": "/content/cq:tags"
       },
@@ -492,6 +492,10 @@
           {
             "name": "Vertical (Grid)",
             "value": "vertical"
+          },
+          {
+            "name": "Horizontal (Grid)",
+            "value": "horizontal-grid"
           }
         ]
       },

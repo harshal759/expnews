@@ -153,9 +153,6 @@ function buildBinjiWizardFormDef(config = {}) {
 // ============================================================
 //  STANDARD CREATE-ACCOUNT FORM DEFINITION
 // ============================================================
-// ============================================================
-//  STANDARD CREATE-ACCOUNT FORM DEFINITION
-// ============================================================
 function buildCreateAccountFormDef(config = {}) {
   const variant = normalizeVariant(config.variant);
 
